@@ -1,7 +1,7 @@
 object GRA_AND_AFCH_FLASHER: TGRA_AND_AFCH_FLASHER
   Left = 0
   Top = 0
-  Caption = 'GRA & AFCH Nixie Tubes Clocks Firmware Flasher v1.3'
+  Caption = 'GRA & AFCH Nixie Tubes Clocks Firmware Flasher v1.2'
   ClientHeight = 339
   ClientWidth = 457
   Color = clBtnFace
