@@ -1,10 +1,9 @@
 object GRA_AND_AFCH_FLASHER: TGRA_AND_AFCH_FLASHER
   Left = 0
   Top = 0
-  Width = 473
-  Height = 378
-  AutoScroll = True
   Caption = 'GRA & AFCH Nixie Tubes Clocks Firmware Flasher v1.3'
+  ClientHeight = 339
+  ClientWidth = 457
   Color = clBtnFace
   Constraints.MinHeight = 374
   Constraints.MinWidth = 473
@@ -44,7 +43,7 @@ object GRA_AND_AFCH_FLASHER: TGRA_AND_AFCH_FLASHER
     ParentFont = False
   end
   object Label3: TLabel
-    Left = 10
+    Left = 8
     Top = 88
     Width = 79
     Height = 13
