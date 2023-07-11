@@ -21,6 +21,7 @@ type
     OpenDialog1: TOpenDialog;
     Memo1: TMemo;
     Timer1: TTimer;
+    SpeedButton1: TSpeedButton;
     procedure Button1Click(Sender: TObject);
     procedure BitBtn1Click(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -28,6 +29,7 @@ type
     procedure BitBtn2Click(Sender: TObject);
     function ExecAndCapture(const ACmdLine: string; var AOutput: string): Integer;
     procedure Timer1Timer(Sender: TObject);
+    procedure SpeedButton1Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -172,28 +174,20 @@ var
 CPU: String;
 Params: String;
 vOutput: string;
-complier: String;
 begin
   case(ComboBox1.ItemIndex) of
-  0,1,2,3:
-    begin
-      CPU:='atmega328p';
-      complier:='arduino';
-    end;
-  4: begin
-    CPU:='atmega2560';
-    complier:='wiring';
-    end;
+  0,1,2,3: CPU:='atmega328p';
+  4:CPU:='atmega2560';
   end;
   if (AnsiUpperCase(ExtractFileExt(OpenDialog1.FileName))<>'.HEX') then
   //ShowMessage(AnsiUpperCase(ExtractFileExt(OpenDialog1.FileName)));
   begin
-    ShowMessage('Select *.HEX file');
+    ShowMessage('Select *.HEX file (WITHOUT a bootloader)!');
     exit;
   end;
   //Memo1.Lines.Clear;
   //Memo1.Lines.Add(OpenDialog1.FileName);
-  Params:='-Cavrdude.conf -v -V -p'+CPU+' -c'+complier+' -P'+ComboBox.Text+' -b115200 -D -Uflash:w:"'+OpenDialog1.FileName+'":i';
+  Params:='-Cavrdude.conf -v -p'+CPU+' -carduino -P'+ComboBox.Text+' -b115200 -D -Uflash:w:"'+OpenDialog1.FileName+'":i';
   //if (ShellExecute(Handle, nil, 'avrdude.exe', PChar(Params), nil, SW_SHOW)<=32) then
   //ExecAndCapture(PChar('avrdude.exe '+Params), vOutput);
   //Params:='-Cavrdude.conf -v -V -p'+CPU+' -carduino -P'+ComboBox.Text+' -b115200 -D -Uflash:w:'+OpenDialog1.FileName+':a';
@@ -263,6 +257,11 @@ begin
   finally
     aList.EndUpdate();
   end;
+end;
+
+procedure TGRA_AND_AFCH_FLASHER.SpeedButton1Click(Sender: TObject);
+begin
+  ShowMessage('Choose only those *.HEX files that do NOT contain' + #160 +'a' + #160 +'Bootloader!');
 end;
 
 procedure TGRA_AND_AFCH_FLASHER.Timer1Timer(Sender: TObject);
