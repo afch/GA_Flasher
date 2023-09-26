@@ -172,13 +172,12 @@ end;
 procedure TGRA_AND_AFCH_FLASHER.Button1Click(Sender: TObject);
 var
 CPU: String;
-Programmer: String;
 Params: String;
 vOutput: string;
 begin
   case(ComboBox1.ItemIndex) of
-  0,1,2,3: begin CPU:='atmega328p'; Programmer:=' -carduino';end;
-  4: begin CPU:='atmega2560';Programmer:=' -cwiring'; end;
+  0,1,2,3: CPU:='atmega328p';
+  4:CPU:='atmega2560';
   end;
   if (AnsiUpperCase(ExtractFileExt(OpenDialog1.FileName))<>'.HEX') then
   //ShowMessage(AnsiUpperCase(ExtractFileExt(OpenDialog1.FileName)));
@@ -188,7 +187,10 @@ begin
   end;
   //Memo1.Lines.Clear;
   //Memo1.Lines.Add(OpenDialog1.FileName);
-  Params:='-Cavrdude.conf -v -p'+CPU+Programmer+' -P'+ComboBox.Text+' -b115200 -D -Uflash:w:"'+OpenDialog1.FileName+'":i';
+  Params:='-Cavrdude.conf -v -p'+CPU+' -carduino -P'+ComboBox.Text+' -b115200 -D -Uflash:w:"'+OpenDialog1.FileName+'":i';
+  //if (ShellExecute(Handle, nil, 'avrdude.exe', PChar(Params), nil, SW_SHOW)<=32) then
+  //ExecAndCapture(PChar('avrdude.exe '+Params), vOutput);
+  //Params:='-Cavrdude.conf -v -V -p'+CPU+' -carduino -P'+ComboBox.Text+' -b115200 -D -Uflash:w:'+OpenDialog1.FileName+':a';
   ExecAndCapture(PChar('run.cmd '+ Params),vOutput);
   //Showmessage(inttostr(GetLastError));
   if (GetLastError=2) then ShowMessage('Error: file "run.cmd" not found!');
