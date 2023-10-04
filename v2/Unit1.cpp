@@ -174,3 +174,10 @@ void __fastcall TGRA_AND_AFCH_FLASHER::SearchPortBitBtnClick(TObject *Sender)
 }
 //---------------------------------------------------------------------------
 
+void __fastcall TGRA_AND_AFCH_FLASHER::FormCreate(TObject *Sender)
+{
+GetComPorts(COMPortComboBox->Items, "COM");
+COMPortComboBox->ItemIndex = 0;
+}
+//---------------------------------------------------------------------------
+

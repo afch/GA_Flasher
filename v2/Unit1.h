@@ -32,6 +32,7 @@ __published:	// IDE-managed Components
 	void __fastcall GetComPorts(TStrings *aList, String aNameStart);
     String __fastcall GetNextSubstring(String aBuf, int *aStartPos);
 	void __fastcall SearchPortBitBtnClick(TObject *Sender);
+	void __fastcall FormCreate(TObject *Sender);
 private:	// User declarations
 public:		// User declarations
 	__fastcall TGRA_AND_AFCH_FLASHER(TComponent* Owner);
