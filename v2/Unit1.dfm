@@ -1,9 +1,10 @@
 object GRA_AND_AFCH_FLASHER: TGRA_AND_AFCH_FLASHER
   Left = 0
   Top = 0
+  Margins.Right = 0
   Caption = 'GRA & AFCH Nixie Tubes Clocks Firmware Flasher v2'
   ClientHeight = 339
-  ClientWidth = 485
+  ClientWidth = 508
   Color = clBtnFace
   Constraints.MinHeight = 374
   Constraints.MinWidth = 473
@@ -14,7 +15,7 @@ object GRA_AND_AFCH_FLASHER: TGRA_AND_AFCH_FLASHER
   Font.Style = []
   OnCreate = FormCreate
   DesignSize = (
-    485
+    508
     339)
   TextHeight = 13
   object Label1: TLabel
@@ -57,7 +58,7 @@ object GRA_AND_AFCH_FLASHER: TGRA_AND_AFCH_FLASHER
     ParentFont = False
   end
   object HintSpeedButton: TSpeedButton
-    Left = 396
+    Left = 419
     Top = 47
     Width = 23
     Height = 22
@@ -105,12 +106,13 @@ object GRA_AND_AFCH_FLASHER: TGRA_AND_AFCH_FLASHER
     ParentShowHint = False
     ParentBiDiMode = False
     ShowHint = True
+    OnClick = HintSpeedButtonClick
     ExplicitLeft = 376
   end
   object FlashButton: TButton
     Left = 152
     Top = 118
-    Width = 185
+    Width = 208
     Height = 57
     Hint = 'Choose only those *.HEX files that do NOT contain Bootloader!'
     Align = alCustom
@@ -125,7 +127,7 @@ object GRA_AND_AFCH_FLASHER: TGRA_AND_AFCH_FLASHER
   object COMPortComboBox: TComboBox
     Left = 101
     Top = 8
-    Width = 180
+    Width = 203
     Height = 21
     Align = alCustom
     Style = csDropDownList
@@ -135,7 +137,7 @@ object GRA_AND_AFCH_FLASHER: TGRA_AND_AFCH_FLASHER
     ExplicitWidth = 176
   end
   object SearchPortBitBtn: TBitBtn
-    Left = 287
+    Left = 310
     Top = 6
     Width = 186
     Height = 25
@@ -149,7 +151,7 @@ object GRA_AND_AFCH_FLASHER: TGRA_AND_AFCH_FLASHER
   object OpenFileEdit: TEdit
     Left = 101
     Top = 48
-    Width = 288
+    Width = 311
     Height = 21
     Hint = 'Choose only those *.HEX files that do NOT contain Bootloader!'
     Align = alCustom
@@ -160,7 +162,7 @@ object GRA_AND_AFCH_FLASHER: TGRA_AND_AFCH_FLASHER
     ExplicitWidth = 284
   end
   object OpenHEXBitBtn: TBitBtn
-    Left = 425
+    Left = 448
     Top = 47
     Width = 48
     Height = 23
@@ -168,12 +170,13 @@ object GRA_AND_AFCH_FLASHER: TGRA_AND_AFCH_FLASHER
     Anchors = [akTop, akRight]
     Caption = 'Open'
     TabOrder = 4
+    OnClick = OpenHEXBitBtnClick
     ExplicitLeft = 421
   end
   object DevicesComboBox: TComboBox
     Left = 100
     Top = 85
-    Width = 372
+    Width = 395
     Height = 21
     Align = alCustom
     Style = csDropDownList
@@ -191,16 +194,29 @@ object GRA_AND_AFCH_FLASHER: TGRA_AND_AFCH_FLASHER
   end
   object Memo1: TMemo
     Left = 0
-    Top = 189
-    Width = 483
+    Top = 191
+    Width = 511
     Height = 150
+    Margins.Right = 0
     Align = alCustom
-    Alignment = taCenter
     Anchors = [akLeft, akTop, akRight, akBottom]
+    Font.Charset = RUSSIAN_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -11
+    Font.Name = 'Cascadia Mono'
+    Font.Style = []
+    ParentFont = False
     ScrollBars = ssBoth
     TabOrder = 6
-    ExplicitWidth = 479
-    ExplicitHeight = 149
+  end
+  object Button1: TButton
+    Left = 425
+    Top = 125
+    Width = 75
+    Height = 25
+    Caption = 'Button1'
+    TabOrder = 7
+    OnClick = Button1Click
   end
   object OpenDialog1: TOpenDialog
     DefaultExt = '.hex'

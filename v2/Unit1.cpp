@@ -5,6 +5,7 @@
 
 #include "Unit1.h"
 #include <StrUtils.hpp> //PosEx
+#include <IOUtils.hpp> //getpath
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 #pragma resource "*.dfm"
@@ -18,7 +19,31 @@ __fastcall TGRA_AND_AFCH_FLASHER::TGRA_AND_AFCH_FLASHER(TComponent* Owner)
 
 void __fastcall TGRA_AND_AFCH_FLASHER::FlashButtonClick(TObject *Sender)
 {
-ShowMessage("!");
+	String CPU;
+	String Programmer;
+	String Params;
+	String vOutput;
+
+  switch (DevicesComboBox->ItemIndex)
+  {
+  case 0: case 1: case 2: case 3: CPU ="atmega328p"; Programmer=" -carduino"; break;
+  case 4: CPU="atmega2560"; Programmer=" -cwiring"; break;
+  };
+  if (AnsiUpperCase(ExtractFileExt(OpenFileEdit->Text)) != ".HEX")
+  //ShowMessage(AnsiUpperCase(ExtractFileExt(OpenDialog1.FileName)));
+  {
+	ShowMessage("Select *.HEX file (WITHOUT a bootloader)!");
+	return;
+  };
+  //Memo1.Lines.Clear;
+  //Memo1.Lines.Add(OpenDialog1.FileName);
+  Params ="-Cavrdude.conf -v -p" + CPU + Programmer + " -P" + COMPortComboBox->Text + " -b115200 -D -Uflash:w:\"" + OpenFileEdit->Text + "\":i";
+  //ExecAndCapture(PChar('run.cmd '+ Params),vOutput);
+  //Showmessage(inttostr(GetLastError));
+  //if (GetLastError() == 2) ShowMessage("Error: file \"run.cmd\" not found!");
+  //Memo1->Lines->Text = Trim(AnsiReplaceStr(vOutput, #13#13#10, #13#10));
+  //Memo1->Lines->Text = Params;
+  RunAvrDude(Params);
 }
 //---------------------------------------------------------------------------
 
@@ -30,6 +55,7 @@ curItem = COMPortComboBox->ItemIndex;
 GetComPorts(COMPortComboBox->Items, "COM");
 
 COMPortComboBox->ItemIndex = curItem;
+if (COMPortComboBox->ItemIndex == -1) COMPortComboBox->ItemIndex = 0;
 }
 //---------------------------------------------------------------------------
 
@@ -43,20 +69,16 @@ void __fastcall TGRA_AND_AFCH_FLASHER::GetComPorts(TStrings *aList, String aName
 	aList->Clear();
 	int i=0;
 	for (;;)
-	  { // Получаем текущее имя устройства
+	  {
 	  TCHAR* pszCurrentDevice = &szDevices[i];
-	  // Если похоже на "COMX" выводим на экран
 	  //int nLen = _tcslen(pszCurrentDevice);
 	  if(/*nLen > 3 &&*/ _tcsnicmp(pszCurrentDevice, aNameStart.w_str(), aNameStart.Length()) == 0)
 		{
 		aList->Add(pszCurrentDevice);
 		}
-		// Переходим к следующему символу терминатору
+
 	  while(szDevices[i] != _T('\0')) i++;
-	  // Перескакиваем на следующую строку
 	  i++;
-      // Список завершается двойным симмволом терминатором, так что если символ
-	  // NULL, мы дошли до конца
 	  if(szDevices[i] == _T('\0')) break;
 	  }
 	aList->EndUpdate();
@@ -157,6 +179,109 @@ void __fastcall TGRA_AND_AFCH_FLASHER::FormCreate(TObject *Sender)
 {
 	GetComPorts(COMPortComboBox->Items, "COM");
 	COMPortComboBox->ItemIndex = 0;
+}
+//---------------------------------------------------------------------------
+
+
+void __fastcall TGRA_AND_AFCH_FLASHER::HintSpeedButtonClick(TObject *Sender)
+{
+  TForm* dlg = CreateMessageDialog("Choose only those *.HEX files that do NOT contain a Bootloader!", mtConfirmation, TMsgDlgButtons() << mbOK);
+  dlg->Caption = "Warning";
+  dlg->ShowModal();
+  delete dlg;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TGRA_AND_AFCH_FLASHER::OpenHEXBitBtnClick(TObject *Sender)
+{
+    if (OpenDialog1->Execute()) OpenFileEdit->Text = OpenDialog1->FileName;
+}
+//---------------------------------------------------------------------------
+
+
+void __fastcall TGRA_AND_AFCH_FLASHER::RunAvrDude(String Params)
+{
+#define READ_BUFFER_SIZE 1024
+
+//String AppName = L"c:\\avrdude.exe -Cc:\\avrdude.conf -v -patmega328p -carduino -PCOM3 -b115200 -D -Uflash:w:\"C:\\fw.hex\":i";
+
+Params = StringReplace(Params, "\\", "\\\\", TReplaceFlags() << rfReplaceAll );
+
+String AppName = L"avrdude.exe " +  Params;
+Memo1->Lines->Add(AppName);
+
+SECURITY_ATTRIBUTES Security;
+HANDLE ReadPipe, WritePipe;
+STARTUPINFO Start;
+TProcessInformation ProcessInfo;
+char *Buffer, Data;
+DWORD BytesRead, Apprunning;
+int Result, DataSize;
+
+Security.nLength = sizeof(TSecurityAttributes);
+Security.bInheritHandle = true;
+Security.lpSecurityDescriptor = NULL;
+
+if (CreatePipe(&ReadPipe, &WritePipe, &Security, 0))
+  {
+  Buffer = new char[READ_BUFFER_SIZE + 1];
+
+  memset(&Start, 0, sizeof(Start));
+  Start.cb = sizeof(Start) ;
+  Start.hStdOutput = WritePipe;
+  Start.hStdInput = ReadPipe;
+  Start.hStdError = WritePipe;
+  Start.dwFlags = STARTF_USESTDHANDLES | STARTF_USESHOWWINDOW;
+  Start.wShowWindow = SW_HIDE;
+
+  if (CreateProcess(NULL, AppName.c_str(), &Security, &Security, true, NORMAL_PRIORITY_CLASS | CREATE_NEW_CONSOLE, NULL, NULL, &Start, &ProcessInfo))
+	{
+    do
+      {
+	  Apprunning = WaitForSingleObject(ProcessInfo.hProcess, 1);
+	  Application->ProcessMessages();
+	  do
+        {
+        Result = PeekNamedPipe(ReadPipe, NULL, 0, NULL, (LPDWORD) &DataSize, NULL);
+		if ((Result) && (DataSize))
+          {
+          if (DataSize > READ_BUFFER_SIZE) DataSize = READ_BUFFER_SIZE;
+          ReadFile(ReadPipe, Buffer, DataSize, &BytesRead, NULL);
+		  Buffer[BytesRead] = 0;
+		  OemToAnsi(Buffer, Buffer);
+          Memo1->SelStart = Memo1->GetTextLen();
+		  Memo1->SelText = (AnsiString) Buffer;
+		  }
+		}
+	  while ((Result) && (DataSize));
+      }
+    while (Apprunning == WAIT_TIMEOUT);
+	while ((Result) && (DataSize));
+    }
+
+  //ShowMessage(errno);     //GetLastError();
+  //ShowMessage(GetLastError());
+  delete [] Buffer;
+
+  CloseHandle(ProcessInfo.hProcess);
+  CloseHandle(ProcessInfo.hThread);
+  CloseHandle(ReadPipe);
+  CloseHandle(WritePipe);
+  }
+}
+//---------------------------------------------------------------------------
+void __fastcall TGRA_AND_AFCH_FLASHER::Button1Click(TObject *Sender)
+{
+
+	/*TResourceStream *rstrmAvr_conf = new TResourceStream((int)HInstance, L"Avrdude_conf", RT_RCDATA);
+	rstrmAvr_conf->SaveToFile("c:\\ESD\\avrdude.conf");
+
+	TResourceStream *rstrmAvr_exe = new TResourceStream((int)HInstance, L"Avrdude_exe", RT_RCDATA);
+	rstrmAvr_exe->SaveToFile("c:\\ESD\\avrdude.exe");   */
+
+	TPath::GetTempPath();
+
+
 }
 //---------------------------------------------------------------------------
 

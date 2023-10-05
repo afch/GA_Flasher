@@ -27,15 +27,20 @@ __published:	// IDE-managed Components
 	TMemo *Memo1;
 	TTimer *Timer1;
 	TSpeedButton *HintSpeedButton;
+	TButton *Button1;
 	void __fastcall FlashButtonClick(TObject *Sender);
 	void __fastcall Timer1Timer(TObject *Sender);
 	void __fastcall GetComPorts(TStrings *aList, String aNameStart);
     String __fastcall GetNextSubstring(String aBuf, int *aStartPos);
 	void __fastcall SearchPortBitBtnClick(TObject *Sender);
 	void __fastcall FormCreate(TObject *Sender);
-private:	// User declarations
+	void __fastcall HintSpeedButtonClick(TObject *Sender);
+	void __fastcall OpenHEXBitBtnClick(TObject *Sender);
+	void __fastcall Button1Click(TObject *Sender);
+	private:	// User declarations
 public:		// User declarations
 	__fastcall TGRA_AND_AFCH_FLASHER(TComponent* Owner);
+    void __fastcall RunAvrDude(String Params);
 };
 //---------------------------------------------------------------------------
 extern PACKAGE TGRA_AND_AFCH_FLASHER *GRA_AND_AFCH_FLASHER;

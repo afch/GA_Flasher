@@ -1,0 +1,2 @@
+Avrdude_conf RCDATA "avrdude.conf"
+Avrdude_exe RCDATA "avrdude.exe"
