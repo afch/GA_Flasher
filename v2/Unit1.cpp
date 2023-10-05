@@ -148,36 +148,15 @@ String __fastcall TGRA_AND_AFCH_FLASHER::GetNextSubstring(String aBuf, int *aSta
 }
 void __fastcall TGRA_AND_AFCH_FLASHER::SearchPortBitBtnClick(TObject *Sender)
 {
-  TCHAR szDevices[65535];
-  DWORD dwChars = QueryDosDevice(NULL, szDevices, 65535);
-  if(dwChars)
-	{
-	int i=0;
-	for (;;)
-	  { // Получаем текущее имя устройства
-	  TCHAR* pszCurrentDevice = &szDevices[i];
-	  // Если похоже на "COMX" выводим на экран
-	  int nLen = _tcslen(pszCurrentDevice);
-	  if(nLen > 3 && _tcsnicmp(pszCurrentDevice, _T("COM"), 3) == 0)
-		{
-		Memo1->Lines->Add(pszCurrentDevice);
-		}
-		// Переходим к следующему символу терминатору
-	  while(szDevices[i] != _T('\0')) i++;
-	  // Перескакиваем на следующую строку
-	  i++;
-      // Список завершается двойным симмволом терминатором, так что если символ
-	  // NULL, мы дошли до конца
-	  if(szDevices[i] == _T('\0')) break;
-	  }
-	}
+	GetComPorts(COMPortComboBox->Items, "COM");
+	COMPortComboBox->ItemIndex = 0;
 }
 //---------------------------------------------------------------------------
 
 void __fastcall TGRA_AND_AFCH_FLASHER::FormCreate(TObject *Sender)
 {
-GetComPorts(COMPortComboBox->Items, "COM");
-COMPortComboBox->ItemIndex = 0;
+	GetComPorts(COMPortComboBox->Items, "COM");
+	COMPortComboBox->ItemIndex = 0;
 }
 //---------------------------------------------------------------------------
 

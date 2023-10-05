@@ -187,6 +187,7 @@ object GRA_AND_AFCH_FLASHER: TGRA_AND_AFCH_FLASHER
       'MCU 109 (Atmega328p)'
       'Arduino Shield NCS314 / NCS312 - Arduino UNO (Atmega328p)'
       'Arduino Shield NCS314 / NCS312 - Arduino Mega 2560 (Atmega2560)')
+    ExplicitWidth = 368
   end
   object Memo1: TMemo
     Left = 0
