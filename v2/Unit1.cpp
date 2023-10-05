@@ -9,6 +9,13 @@
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 #pragma resource "*.dfm"
+
+#define FLASH_MEMORY "flash"
+#define EEPROM_MEMORY "eeprom"
+
+#define READ_COMMAND "r"
+#define WRITE_COMMAND "w"
+
 TGRA_AND_AFCH_FLASHER *GRA_AND_AFCH_FLASHER;
 //---------------------------------------------------------------------------
 __fastcall TGRA_AND_AFCH_FLASHER::TGRA_AND_AFCH_FLASHER(TComponent* Owner)
@@ -24,26 +31,42 @@ void __fastcall TGRA_AND_AFCH_FLASHER::FlashButtonClick(TObject *Sender)
 	String Params;
 	String vOutput;
 
-  switch (DevicesComboBox->ItemIndex)
+    MemoryType = FLASH_MEMORY;
+	Command = WRITE_COMMAND;
+
+  if (COMPortComboBox->ItemIndex == -1)
   {
-  case 0: case 1: case 2: case 3: CPU ="atmega328p"; Programmer=" -carduino"; break;
-  case 4: CPU="atmega2560"; Programmer=" -cwiring"; break;
-  };
-  if (AnsiUpperCase(ExtractFileExt(OpenFileEdit->Text)) != ".HEX")
-  //ShowMessage(AnsiUpperCase(ExtractFileExt(OpenDialog1.FileName)));
+	ShowMessage("COM Port NOT Selected!");
+	return;
+  }
+
+ if((!FileExists(TPath::GetTempPath() + "avrdude.conf")) || (!FileExists(TPath::GetTempPath() + "avrdude.exe")))
+ {
+	ShowMessage("File \"avrdude.conf\" or \"avrdude.exe\" not found!");
+	return;
+ }
+
+  FileName = OpenFileEdit->Text;
+
+  if (AnsiUpperCase(ExtractFileExt(FileName)) != ".HEX")
   {
 	ShowMessage("Select *.HEX file (WITHOUT a bootloader)!");
 	return;
   };
-  //Memo1.Lines.Clear;
-  //Memo1.Lines.Add(OpenDialog1.FileName);
-  Params ="-Cavrdude.conf -v -p" + CPU + Programmer + " -P" + COMPortComboBox->Text + " -b115200 -D -Uflash:w:\"" + OpenFileEdit->Text + "\":i";
-  //ExecAndCapture(PChar('run.cmd '+ Params),vOutput);
-  //Showmessage(inttostr(GetLastError));
-  //if (GetLastError() == 2) ShowMessage("Error: file \"run.cmd\" not found!");
-  //Memo1->Lines->Text = Trim(AnsiReplaceStr(vOutput, #13#13#10, #13#10));
-  //Memo1->Lines->Text = Params;
+
+  switch (DevicesComboBox->ItemIndex)
+  {
+	case 0: case 1: case 2: case 3: CPU ="atmega328p"; Programmer=" -carduino"; break;
+  	case 4: CPU="atmega2560"; Programmer=" -cwiring"; break;
+  };
+
+  //Params ="-C" + TPath::GetTempPath() + "avrdude.conf -v -p" + CPU + Programmer + " -P" + COMPortComboBox->Text + " -b115200 -D -Uflash:w:\"" + OpenFileEdit->Text + "\":i";
+
+  Params ="-C" + TPath::GetTempPath() + "avrdude.conf -v -p" + CPU + Programmer + " -P" + COMPortComboBox->Text + " -b115200 -D -U"+ MemoryType +":" + Command + ":\"" + FileName + "\":i";
+
+  FlashButton->Enabled = false;
   RunAvrDude(Params);
+  FlashButton->Enabled = true;
 }
 //---------------------------------------------------------------------------
 
@@ -179,6 +202,12 @@ void __fastcall TGRA_AND_AFCH_FLASHER::FormCreate(TObject *Sender)
 {
 	GetComPorts(COMPortComboBox->Items, "COM");
 	COMPortComboBox->ItemIndex = 0;
+
+    TResourceStream *rstrmAvr_conf = new TResourceStream((int)HInstance, L"Avrdude_conf", RT_RCDATA);
+	rstrmAvr_conf->SaveToFile(TPath::GetTempPath() + "avrdude.conf");
+
+	TResourceStream *rstrmAvr_exe = new TResourceStream((int)HInstance, L"Avrdude_exe", RT_RCDATA);
+	rstrmAvr_exe->SaveToFile(TPath::GetTempPath() + "avrdude.exe");
 }
 //---------------------------------------------------------------------------
 
@@ -207,7 +236,7 @@ void __fastcall TGRA_AND_AFCH_FLASHER::RunAvrDude(String Params)
 
 Params = StringReplace(Params, "\\", "\\\\", TReplaceFlags() << rfReplaceAll );
 
-String AppName = L"avrdude.exe " +  Params;
+String AppName = TPath::GetTempPath() + L"avrdude.exe " +  Params;
 Memo1->Lines->Add(AppName);
 
 SECURITY_ATTRIBUTES Security;
@@ -259,8 +288,6 @@ if (CreatePipe(&ReadPipe, &WritePipe, &Security, 0))
 	while ((Result) && (DataSize));
     }
 
-  //ShowMessage(errno);     //GetLastError();
-  //ShowMessage(GetLastError());
   delete [] Buffer;
 
   CloseHandle(ProcessInfo.hProcess);
@@ -272,16 +299,50 @@ if (CreatePipe(&ReadPipe, &WritePipe, &Security, 0))
 //---------------------------------------------------------------------------
 void __fastcall TGRA_AND_AFCH_FLASHER::Button1Click(TObject *Sender)
 {
-
-	/*TResourceStream *rstrmAvr_conf = new TResourceStream((int)HInstance, L"Avrdude_conf", RT_RCDATA);
-	rstrmAvr_conf->SaveToFile("c:\\ESD\\avrdude.conf");
+	TResourceStream *rstrmAvr_conf = new TResourceStream((int)HInstance, L"Avrdude_conf", RT_RCDATA);
+	rstrmAvr_conf->SaveToFile(TPath::GetTempPath() + "avrdude.conf");
 
 	TResourceStream *rstrmAvr_exe = new TResourceStream((int)HInstance, L"Avrdude_exe", RT_RCDATA);
-	rstrmAvr_exe->SaveToFile("c:\\ESD\\avrdude.exe");   */
+	rstrmAvr_exe->SaveToFile(TPath::GetTempPath() + "avrdude.exe");
+}
+//---------------------------------------------------------------------------
 
-	TPath::GetTempPath();
 
+void __fastcall TGRA_AND_AFCH_FLASHER::LinkLabel1Click(TObject *Sender)
+{
+	ShellExecute(0, 0, L"http://www.gra-afch.com", 0, 0, SW_SHOW);
+}
+//---------------------------------------------------------------------------
 
+void __fastcall TGRA_AND_AFCH_FLASHER::Image1Click(TObject *Sender)
+{
+	ShellExecute(0, 0, L"http://www.gra-afch.com", 0, 0, SW_SHOW);
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TGRA_AND_AFCH_FLASHER::ReadFlashButtonClick(TObject *Sender)
+{
+	if (!SaveDialog1->Execute()) return;
+	FileName = SaveDialog1->FileName;
+	MemoryType = FLASH_MEMORY;
+	Command = READ_COMMAND;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TGRA_AND_AFCH_FLASHER::ReadEEPROMButtonClick(TObject *Sender)
+{
+	if (!SaveDialog1->Execute()) return;
+	FileName = SaveDialog1->FileName;
+	MemoryType = EEPROM_MEMORY;
+	Command = READ_COMMAND;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TGRA_AND_AFCH_FLASHER::WriteEEPROMButtonClick(TObject *Sender)
+{
+	MemoryType = EEPROM_MEMORY;
+	Command = WRITE_COMMAND;
+    FileName = OpenFileEdit->Text;
 }
 //---------------------------------------------------------------------------
 

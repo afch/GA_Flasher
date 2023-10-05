@@ -10,6 +10,9 @@
 #include <Vcl.Buttons.hpp>
 #include <Vcl.Dialogs.hpp>
 #include <Vcl.ExtCtrls.hpp>
+#include <System.ImageList.hpp>
+#include <Vcl.ImgList.hpp>
+#include <Vcl.Imaging.jpeg.hpp>
 //---------------------------------------------------------------------------
 class TGRA_AND_AFCH_FLASHER : public TForm
 {
@@ -27,7 +30,12 @@ __published:	// IDE-managed Components
 	TMemo *Memo1;
 	TTimer *Timer1;
 	TSpeedButton *HintSpeedButton;
-	TButton *Button1;
+	TLinkLabel *LinkLabel1;
+	TButton *ReadFlashButton;
+	TButton *ReadEEPROMButton;
+	TButton *WriteEEPROMButton;
+	TImage *Image1;
+	TSaveDialog *SaveDialog1;
 	void __fastcall FlashButtonClick(TObject *Sender);
 	void __fastcall Timer1Timer(TObject *Sender);
 	void __fastcall GetComPorts(TStrings *aList, String aNameStart);
@@ -37,10 +45,18 @@ __published:	// IDE-managed Components
 	void __fastcall HintSpeedButtonClick(TObject *Sender);
 	void __fastcall OpenHEXBitBtnClick(TObject *Sender);
 	void __fastcall Button1Click(TObject *Sender);
+	void __fastcall LinkLabel1Click(TObject *Sender);
+	void __fastcall Image1Click(TObject *Sender);
+	void __fastcall ReadFlashButtonClick(TObject *Sender);
+	void __fastcall ReadEEPROMButtonClick(TObject *Sender);
+	void __fastcall WriteEEPROMButtonClick(TObject *Sender);
 	private:	// User declarations
 public:		// User declarations
 	__fastcall TGRA_AND_AFCH_FLASHER(TComponent* Owner);
-    void __fastcall RunAvrDude(String Params);
+	void __fastcall RunAvrDude(String Params);
+	String MemoryType;
+	String Command;
+    String FileName;
 };
 //---------------------------------------------------------------------------
 extern PACKAGE TGRA_AND_AFCH_FLASHER *GRA_AND_AFCH_FLASHER;
