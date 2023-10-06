@@ -13,6 +13,7 @@ object GRA_AND_AFCH_FLASHER: TGRA_AND_AFCH_FLASHER
   Font.Height = -11
   Font.Name = 'Tahoma'
   Font.Style = []
+  Position = poScreenCenter
   OnCreate = FormCreate
   DesignSize = (
     485
@@ -58,7 +59,7 @@ object GRA_AND_AFCH_FLASHER: TGRA_AND_AFCH_FLASHER
     ParentFont = False
   end
   object HintSpeedButton: TSpeedButton
-    Left = 356
+    Left = 352
     Top = 47
     Width = 23
     Height = 22
@@ -107,6 +108,7 @@ object GRA_AND_AFCH_FLASHER: TGRA_AND_AFCH_FLASHER
     ParentBiDiMode = False
     ShowHint = True
     OnClick = HintSpeedButtonClick
+    ExplicitLeft = 356
   end
   object Image1: TImage
     Left = 199
@@ -209,7 +211,7 @@ object GRA_AND_AFCH_FLASHER: TGRA_AND_AFCH_FLASHER
   object FlashButton: TButton
     Left = 287
     Top = 118
-    Width = 185
+    Width = 181
     Height = 87
     Hint = 'Choose only those *.HEX files that do NOT contain Bootloader!'
     Align = alCustom
@@ -219,22 +221,22 @@ object GRA_AND_AFCH_FLASHER: TGRA_AND_AFCH_FLASHER
     ShowHint = True
     TabOrder = 2
     OnClick = FlashButtonClick
-    ExplicitWidth = 181
+    ExplicitWidth = 177
   end
   object COMPortComboBox: TComboBox
     Left = 101
     Top = 8
-    Width = 180
+    Width = 176
     Height = 21
     Align = alCustom
     Style = csDropDownList
     Anchors = [akLeft, akTop, akRight]
     Sorted = True
     TabOrder = 3
-    ExplicitWidth = 176
+    ExplicitWidth = 172
   end
   object SearchPortBitBtn: TBitBtn
-    Left = 287
+    Left = 283
     Top = 6
     Width = 186
     Height = 25
@@ -243,12 +245,12 @@ object GRA_AND_AFCH_FLASHER: TGRA_AND_AFCH_FLASHER
     Caption = 'Search for available ports'
     TabOrder = 4
     OnClick = SearchPortBitBtnClick
-    ExplicitLeft = 283
+    ExplicitLeft = 279
   end
   object OpenFileEdit: TEdit
     Left = 101
     Top = 48
-    Width = 255
+    Width = 251
     Height = 21
     Hint = 'Choose only those *.HEX files that do NOT contain Bootloader!'
     Align = alCustom
@@ -256,10 +258,10 @@ object GRA_AND_AFCH_FLASHER: TGRA_AND_AFCH_FLASHER
     ParentShowHint = False
     ShowHint = True
     TabOrder = 5
-    ExplicitWidth = 251
+    ExplicitWidth = 247
   end
   object OpenHEXBitBtn: TBitBtn
-    Left = 385
+    Left = 381
     Top = 47
     Width = 88
     Height = 23
@@ -268,12 +270,12 @@ object GRA_AND_AFCH_FLASHER: TGRA_AND_AFCH_FLASHER
     Caption = 'Open *.HEX File'
     TabOrder = 0
     OnClick = OpenHEXBitBtnClick
-    ExplicitLeft = 381
+    ExplicitLeft = 377
   end
   object DevicesComboBox: TComboBox
     Left = 100
     Top = 85
-    Width = 372
+    Width = 368
     Height = 21
     Align = alCustom
     Style = csDropDownList
@@ -287,12 +289,12 @@ object GRA_AND_AFCH_FLASHER: TGRA_AND_AFCH_FLASHER
       'MCU 109 (Atmega328p)'
       'Arduino Shield NCS314 / NCS312 - Arduino UNO (Atmega328p)'
       'Arduino Shield NCS314 / NCS312 - Arduino Mega 2560 (Atmega2560)')
-    ExplicitWidth = 368
+    ExplicitWidth = 364
   end
   object Memo1: TMemo
     Left = 0
     Top = 220
-    Width = 488
+    Width = 484
     Height = 169
     Margins.Right = 0
     TabStop = False
@@ -306,7 +308,7 @@ object GRA_AND_AFCH_FLASHER: TGRA_AND_AFCH_FLASHER
     ParentFont = False
     ScrollBars = ssBoth
     TabOrder = 6
-    ExplicitWidth = 484
+    ExplicitWidth = 480
     ExplicitHeight = 168
   end
   object LinkLabel1: TLinkLabel
