@@ -26,47 +26,17 @@ __fastcall TGRA_AND_AFCH_FLASHER::TGRA_AND_AFCH_FLASHER(TComponent* Owner)
 
 void __fastcall TGRA_AND_AFCH_FLASHER::FlashButtonClick(TObject *Sender)
 {
-	String CPU;
-	String Programmer;
-	String Params;
-	String vOutput;
-
-    MemoryType = FLASH_MEMORY;
+	MemoryType = FLASH_MEMORY;
 	Command = WRITE_COMMAND;
 
-  if (COMPortComboBox->ItemIndex == -1)
-  {
-	ShowMessage("COM Port NOT Selected!");
-	return;
-  }
+    FileName = OpenFileEdit->Text;
 
- if((!FileExists(TPath::GetTempPath() + "avrdude.conf")) || (!FileExists(TPath::GetTempPath() + "avrdude.exe")))
- {
-	ShowMessage("File \"avrdude.conf\" or \"avrdude.exe\" not found!");
-	return;
- }
+  if (!RequirementsCheck()) return;
 
-  FileName = OpenFileEdit->Text;
-
-  if (AnsiUpperCase(ExtractFileExt(FileName)) != ".HEX")
-  {
-	ShowMessage("Select *.HEX file (WITHOUT a bootloader)!");
-	return;
-  };
-
-  switch (DevicesComboBox->ItemIndex)
-  {
-	case 0: case 1: case 2: case 3: CPU ="atmega328p"; Programmer=" -carduino"; break;
-  	case 4: CPU="atmega2560"; Programmer=" -cwiring"; break;
-  };
-
-  //Params ="-C" + TPath::GetTempPath() + "avrdude.conf -v -p" + CPU + Programmer + " -P" + COMPortComboBox->Text + " -b115200 -D -Uflash:w:\"" + OpenFileEdit->Text + "\":i";
-
-  Params ="-C" + TPath::GetTempPath() + "avrdude.conf -v -p" + CPU + Programmer + " -P" + COMPortComboBox->Text + " -b115200 -D -U"+ MemoryType +":" + Command + ":\"" + FileName + "\":i";
-
-  FlashButton->Enabled = false;
-  RunAvrDude(Params);
-  FlashButton->Enabled = true;
+  DisableAllButtons(true);
+  Memo1->Clear();
+  RunAvrDude(PrepareString());
+  DisableAllButtons(false);
 }
 //---------------------------------------------------------------------------
 
@@ -106,9 +76,6 @@ void __fastcall TGRA_AND_AFCH_FLASHER::GetComPorts(TStrings *aList, String aName
 	  }
 	aList->EndUpdate();
 	}
-
-
-
 /*
   TCHAR vBuf[65535];
   int vRes;
@@ -172,7 +139,7 @@ void __fastcall TGRA_AND_AFCH_FLASHER::GetComPorts(TStrings *aList, String aName
   };   */
 }
 
-String __fastcall TGRA_AND_AFCH_FLASHER::GetNextSubstring(String aBuf, int *aStartPos)
+/*String __fastcall TGRA_AND_AFCH_FLASHER::GetNextSubstring(String aBuf, int *aStartPos)
 {
   int vLastPos;
   String Result;
@@ -181,16 +148,17 @@ String __fastcall TGRA_AND_AFCH_FLASHER::GetNextSubstring(String aBuf, int *aSta
 
 
   if (*aStartPos > aBuf.Length() )
-	{
-	  return "";
-	}
+  {
+	return "";
+  }
 
   vLastPos = PosEx('\0', aBuf, *aStartPos);
   //Result = Copy(aBuf, aStartPos, vLastPos - aStartPos);
   Result = aBuf.SubString(*aStartPos, vLastPos - *aStartPos);
   aStartPos = aStartPos + (vLastPos - *aStartPos) + 1;
   return Result;
-}
+}    */
+
 void __fastcall TGRA_AND_AFCH_FLASHER::SearchPortBitBtnClick(TObject *Sender)
 {
 	GetComPorts(COMPortComboBox->Items, "COM");
@@ -322,19 +290,35 @@ void __fastcall TGRA_AND_AFCH_FLASHER::Image1Click(TObject *Sender)
 
 void __fastcall TGRA_AND_AFCH_FLASHER::ReadFlashButtonClick(TObject *Sender)
 {
+	SaveDialog1->FileName = "FlashBackup.hex";
 	if (!SaveDialog1->Execute()) return;
 	FileName = SaveDialog1->FileName;
 	MemoryType = FLASH_MEMORY;
 	Command = READ_COMMAND;
+
+    if (!RequirementsCheck()) return;
+
+	DisableAllButtons(true);
+	Memo1->Clear();
+	RunAvrDude(PrepareString());
+	DisableAllButtons(false);
 }
 //---------------------------------------------------------------------------
 
 void __fastcall TGRA_AND_AFCH_FLASHER::ReadEEPROMButtonClick(TObject *Sender)
 {
+	SaveDialog1->FileName = "EEPROMBackup.hex";
 	if (!SaveDialog1->Execute()) return;
 	FileName = SaveDialog1->FileName;
 	MemoryType = EEPROM_MEMORY;
 	Command = READ_COMMAND;
+
+    if (!RequirementsCheck()) return;
+
+	DisableAllButtons(true);
+	Memo1->Clear();
+	RunAvrDude(PrepareString());
+	DisableAllButtons(false);
 }
 //---------------------------------------------------------------------------
 
@@ -342,7 +326,60 @@ void __fastcall TGRA_AND_AFCH_FLASHER::WriteEEPROMButtonClick(TObject *Sender)
 {
 	MemoryType = EEPROM_MEMORY;
 	Command = WRITE_COMMAND;
-    FileName = OpenFileEdit->Text;
+	FileName = OpenFileEdit->Text;
+
+    if (!RequirementsCheck()) return;
+
+	DisableAllButtons(true);
+    Memo1->Clear();
+	RunAvrDude(PrepareString());
+  	DisableAllButtons(false);
 }
 //---------------------------------------------------------------------------
 
+String __fastcall TGRA_AND_AFCH_FLASHER::PrepareString()
+{
+   	String CPU;
+	String Programmer;
+
+    switch (DevicesComboBox->ItemIndex)
+	{
+		case 0: case 1: case 2: case 3: CPU ="atmega328p"; Programmer=" -carduino"; break;
+		case 4: CPU="atmega2560"; Programmer=" -cwiring"; break;
+	};
+
+	return "-C" + TPath::GetTempPath() + "avrdude.conf -v -p" + CPU + Programmer + " -P" + COMPortComboBox->Text + " -b115200 -D -U"+ MemoryType +":" + Command + ":\"" + FileName + "\":i";
+}
+
+// TRUE - ALL is OK, FALSE - Something is missing
+Boolean __fastcall TGRA_AND_AFCH_FLASHER::RequirementsCheck()
+{
+  if (COMPortComboBox->ItemIndex == -1)
+  {
+	ShowMessage("COM Port NOT Selected!");
+	return false;
+  }
+
+  if((!FileExists(TPath::GetTempPath() + "avrdude.conf")) || (!FileExists(TPath::GetTempPath() + "avrdude.exe")))
+  {
+	ShowMessage("File \"avrdude.conf\" or \"avrdude.exe\" not found!");
+	return false;
+  }
+
+  if (AnsiUpperCase(ExtractFileExt(FileName)) != ".HEX")
+  {
+	if (MemoryType == FLASH_MEMORY) ShowMessage("Select FIRMWARE *.HEX file (WITHOUT a bootloader)!");
+	if (MemoryType == EEPROM_MEMORY) ShowMessage("Select EEPROM *.HEX file (with settings)");
+	return false;
+  };
+
+  return true;
+}
+
+void __fastcall TGRA_AND_AFCH_FLASHER::DisableAllButtons(boolean Disable)
+{
+	FlashButton->Enabled = !Disable;
+	ReadFlashButton->Enabled = !Disable;
+	ReadEEPROMButton->Enabled = !Disable;
+	WriteEEPROMButton->Enabled = !Disable;
+}

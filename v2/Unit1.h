@@ -38,8 +38,6 @@ __published:	// IDE-managed Components
 	TSaveDialog *SaveDialog1;
 	void __fastcall FlashButtonClick(TObject *Sender);
 	void __fastcall Timer1Timer(TObject *Sender);
-	void __fastcall GetComPorts(TStrings *aList, String aNameStart);
-    String __fastcall GetNextSubstring(String aBuf, int *aStartPos);
 	void __fastcall SearchPortBitBtnClick(TObject *Sender);
 	void __fastcall FormCreate(TObject *Sender);
 	void __fastcall HintSpeedButtonClick(TObject *Sender);
@@ -53,7 +51,12 @@ __published:	// IDE-managed Components
 	private:	// User declarations
 public:		// User declarations
 	__fastcall TGRA_AND_AFCH_FLASHER(TComponent* Owner);
+	//String __fastcall GetNextSubstring(String aBuf, int *aStartPos);
+    void __fastcall GetComPorts(TStrings *aList, String aNameStart);
 	void __fastcall RunAvrDude(String Params);
+	String __fastcall PrepareString();
+	Boolean __fastcall RequirementsCheck();
+    void __fastcall DisableAllButtons(boolean Disable);
 	String MemoryType;
 	String Command;
     String FileName;

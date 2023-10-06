@@ -219,6 +219,7 @@ object GRA_AND_AFCH_FLASHER: TGRA_AND_AFCH_FLASHER
     ShowHint = True
     TabOrder = 2
     OnClick = FlashButtonClick
+    ExplicitWidth = 181
   end
   object COMPortComboBox: TComboBox
     Left = 101
@@ -255,6 +256,7 @@ object GRA_AND_AFCH_FLASHER: TGRA_AND_AFCH_FLASHER
     ParentShowHint = False
     ShowHint = True
     TabOrder = 5
+    ExplicitWidth = 251
   end
   object OpenHEXBitBtn: TBitBtn
     Left = 385
@@ -266,6 +268,7 @@ object GRA_AND_AFCH_FLASHER: TGRA_AND_AFCH_FLASHER
     Caption = 'Open *.HEX File'
     TabOrder = 0
     OnClick = OpenHEXBitBtnClick
+    ExplicitLeft = 381
   end
   object DevicesComboBox: TComboBox
     Left = 100
@@ -303,6 +306,8 @@ object GRA_AND_AFCH_FLASHER: TGRA_AND_AFCH_FLASHER
     ParentFont = False
     ScrollBars = ssBoth
     TabOrder = 6
+    ExplicitWidth = 484
+    ExplicitHeight = 168
   end
   object LinkLabel1: TLinkLabel
     Left = 209
@@ -358,6 +363,7 @@ object GRA_AND_AFCH_FLASHER: TGRA_AND_AFCH_FLASHER
     Top = 226
   end
   object SaveDialog1: TSaveDialog
+    DefaultExt = '*.hex'
     FileName = 'backup.hex'
     Filter = 'FLASH or EEPROM Files|*.hex'
     Left = 145
