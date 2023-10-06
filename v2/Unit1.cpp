@@ -291,6 +291,7 @@ void __fastcall TGRA_AND_AFCH_FLASHER::Image1Click(TObject *Sender)
 void __fastcall TGRA_AND_AFCH_FLASHER::ReadFlashButtonClick(TObject *Sender)
 {
 	SaveDialog1->FileName = "FlashBackup.hex";
+    SaveDialog1->Title ="hello";
 	if (!SaveDialog1->Execute()) return;
 	FileName = SaveDialog1->FileName;
 	MemoryType = FLASH_MEMORY;
