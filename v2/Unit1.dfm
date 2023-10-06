@@ -355,7 +355,7 @@ object GRA_AND_AFCH_FLASHER: TGRA_AND_AFCH_FLASHER
   end
   object OpenDialog1: TOpenDialog
     DefaultExt = '.hex'
-    Filter = 'Arduinno compiled sketch or EEPROM|*.hex;*.epp'
+    Filter = 'Arduinno compiled sketch or EEPROM|*.hex;*.eep'
     Left = 27
     Top = 223
   end
@@ -366,7 +366,8 @@ object GRA_AND_AFCH_FLASHER: TGRA_AND_AFCH_FLASHER
   end
   object SaveDialog1: TSaveDialog
     FileName = 'backup.hex'
-    Filter = 'FLASH or EEPROM Files|*.hex; *.epp'
+    Filter = 'FLASH or EEPROM Files|*.hex; *.eep'
+    Options = [ofOverwritePrompt, ofHideReadOnly, ofEnableSizing]
     Left = 145
     Top = 225
   end
