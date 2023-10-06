@@ -191,7 +191,7 @@ void __fastcall TGRA_AND_AFCH_FLASHER::HintSpeedButtonClick(TObject *Sender)
 
 void __fastcall TGRA_AND_AFCH_FLASHER::OpenHEXBitBtnClick(TObject *Sender)
 {
-    if (OpenDialog1->Execute()) OpenFileEdit->Text = OpenDialog1->FileName;
+	if (OpenDialog1->Execute()) OpenFileEdit->Text = OpenDialog1->FileName;
 }
 //---------------------------------------------------------------------------
 
@@ -291,7 +291,8 @@ void __fastcall TGRA_AND_AFCH_FLASHER::Image1Click(TObject *Sender)
 void __fastcall TGRA_AND_AFCH_FLASHER::ReadFlashButtonClick(TObject *Sender)
 {
 	SaveDialog1->FileName = "FlashBackup.hex";
-    SaveDialog1->Title ="hello";
+	//SaveDialog1->DefaultExt = "*.hex";
+	SaveDialog1->Title ="Select where to Save the Flash (Firmware) from your Device";
 	if (!SaveDialog1->Execute()) return;
 	FileName = SaveDialog1->FileName;
 	MemoryType = FLASH_MEMORY;
@@ -308,7 +309,9 @@ void __fastcall TGRA_AND_AFCH_FLASHER::ReadFlashButtonClick(TObject *Sender)
 
 void __fastcall TGRA_AND_AFCH_FLASHER::ReadEEPROMButtonClick(TObject *Sender)
 {
-	SaveDialog1->FileName = "EEPROMBackup.hex";
+	SaveDialog1->FileName = "EEPROMBackup.eep";
+	//SaveDialog1->DefaultExt = "*.eep";
+    SaveDialog1->Title ="Select where to Save the EEPROM (Settings) from your Device";
 	if (!SaveDialog1->Execute()) return;
 	FileName = SaveDialog1->FileName;
 	MemoryType = EEPROM_MEMORY;
@@ -329,7 +332,7 @@ void __fastcall TGRA_AND_AFCH_FLASHER::WriteEEPROMButtonClick(TObject *Sender)
 	Command = WRITE_COMMAND;
 	FileName = OpenFileEdit->Text;
 
-    if (!RequirementsCheck()) return;
+	if (!RequirementsCheck()) return;
 
 	DisableAllButtons(true);
     Memo1->Clear();
@@ -367,12 +370,16 @@ Boolean __fastcall TGRA_AND_AFCH_FLASHER::RequirementsCheck()
 	return false;
   }
 
-  if (AnsiUpperCase(ExtractFileExt(FileName)) != ".HEX")
+  if ((MemoryType == FLASH_MEMORY) && (AnsiUpperCase(ExtractFileExt(FileName)) != ".HEX"))
   {
-	if (MemoryType == FLASH_MEMORY) ShowMessage("Select FIRMWARE *.HEX file (WITHOUT a bootloader)!");
-	if (MemoryType == EEPROM_MEMORY) ShowMessage("Select EEPROM *.HEX file (with settings)");
+	ShowMessage("Select FIRMWARE *.HEX file (WITHOUT a bootloader)!");
 	return false;
-  };
+  }
+  if ((MemoryType == EEPROM_MEMORY) && (AnsiUpperCase(ExtractFileExt(FileName)) != ".EEP"))
+  {
+	ShowMessage("Select EEPROM *.EEP file (with settings)");
+	return false;
+  }
 
   return true;
 }
