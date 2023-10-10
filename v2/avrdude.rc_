@@ -1,0 +1,98 @@
+part parent "m328"
+    id			= "m328_except_bootloader";
+    desc		= "ATmega328P_except_bootloader";
+    signature		= 0x1e 0x95 0x0F;
+
+    ocdrev              = 1;
+	
+	memory "flash"
+	paged		= yes;
+	size		= 32256;
+	page_size	= 128;
+	num_pages	= 252;
+	min_write_delay = 4500;
+	max_write_delay = 4500;
+	readback_p1	= 0xff;
+	readback_p2	= 0xff;
+	read_lo = " 0 0 1 0 0 0 0 0",
+		  " 0 0 a13 a12 a11 a10 a9 a8",
+		  " a7 a6 a5 a4 a3 a2 a1 a0",
+		  " o o o o o o o o";
+
+	read_hi = " 0 0 1 0 1 0 0 0",
+		  " 0 0 a13 a12 a11 a10 a9 a8",
+		  " a7 a6 a5 a4 a3 a2 a1 a0",
+		  " o o o o o o o o";
+
+	loadpage_lo = " 0 1 0 0 0 0 0 0",
+		      " 0 0 0 x x x x x",
+		      " x x a5 a4 a3 a2 a1 a0",
+		      " i i i i i i i i";
+
+	loadpage_hi = " 0 1 0 0 1 0 0 0",
+		      " 0 0 0 x x x x x",
+		      " x x a5 a4 a3 a2 a1 a0",
+		      " i i i i i i i i";
+
+	writepage = " 0 1 0 0 1 1 0 0",
+		    " 0 0 a13 a12 a11 a10 a9 a8",
+		    " a7 a6 x x x x x x",
+		    " x x x x x x x x";
+
+	mode		= 0x41;
+	delay		= 6;
+	blocksize	= 128;
+	readsize	= 256;
+
+    ;
+;
+
+part parent "m2560"
+	id			= "m2560_except_bootloader";
+    desc		= "ATmega2560_except_bootloader";
+	
+	memory "flash"
+        paged           = yes;
+        size            = 253952;
+        page_size       = 256;
+        num_pages       = 992;
+        min_write_delay = 4500;
+        max_write_delay = 4500;
+        readback_p1     = 0x00;
+        readback_p2     = 0x00;
+        read_lo         = "  0   0   1   0      0   0   0   0",
+                          "a15 a14 a13 a12    a11 a10  a9  a8",
+                          " a7  a6  a5  a4     a3  a2  a1  a0",
+                          "  o   o   o   o      o   o   o   o";
+
+        read_hi         = "  0   0   1   0      1   0   0   0",
+                          "a15 a14 a13 a12    a11 a10  a9  a8",
+                          " a7  a6  a5  a4     a3  a2  a1  a0",
+                          "  o   o   o   o      o   o   o   o";
+
+        loadpage_lo     = "  0   1   0   0      0   0   0   0",
+                          "  x   x   x   x      x   x   x   x",
+                          "  x  a6  a5  a4     a3  a2  a1  a0",
+                          "  i   i   i   i      i   i   i   i";
+
+        loadpage_hi     = "  0   1   0   0      1   0   0   0",
+                          "  x   x   x   x      x   x   x   x",
+                          "  x  a6  a5  a4     a3  a2  a1  a0",
+                          "  i   i   i   i      i   i   i   i";
+
+        writepage       = "  0   1   0   0      1   1   0   0",
+                          "a15 a14 a13 a12    a11 a10  a9  a8",
+                          " a7   x   x   x      x   x   x   x",
+                          "  x   x   x   x      x   x   x   x";
+
+        load_ext_addr   = "  0   1   0   0      1   1   0   1",
+                          "  0   0   0   0      0   0   0   0",
+                          "  0   0   0   0      0   0   0 a16",
+                          "  0   0   0   0      0   0   0   0";
+
+	mode		= 0x41;
+	delay		= 10;
+	blocksize	= 256;
+	readsize	= 256;
+    ;
+;

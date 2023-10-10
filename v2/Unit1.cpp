@@ -171,11 +171,14 @@ void __fastcall TGRA_AND_AFCH_FLASHER::FormCreate(TObject *Sender)
 	GetComPorts(COMPortComboBox->Items, "COM");
 	COMPortComboBox->ItemIndex = 0;
 
-    TResourceStream *rstrmAvr_conf = new TResourceStream((int)HInstance, L"Avrdude_conf", RT_RCDATA);
+	TResourceStream *rstrmAvr_conf = new TResourceStream((int)HInstance, L"Avrdude_conf", RT_RCDATA);
 	rstrmAvr_conf->SaveToFile(TPath::GetTempPath() + "avrdude.conf");
 
 	TResourceStream *rstrmAvr_exe = new TResourceStream((int)HInstance, L"Avrdude_exe", RT_RCDATA);
 	rstrmAvr_exe->SaveToFile(TPath::GetTempPath() + "avrdude.exe");
+
+	TResourceStream *rstrmAvr_rc = new TResourceStream((int)HInstance, L"Avrdude_rc", RT_RCDATA);
+	rstrmAvr_rc->SaveToFile(TPath::GetTempPath() + "avrdude.rc");
 }
 //---------------------------------------------------------------------------
 
@@ -265,16 +268,6 @@ if (CreatePipe(&ReadPipe, &WritePipe, &Security, 0))
   }
 }
 //---------------------------------------------------------------------------
-void __fastcall TGRA_AND_AFCH_FLASHER::Button1Click(TObject *Sender)
-{
-	TResourceStream *rstrmAvr_conf = new TResourceStream((int)HInstance, L"Avrdude_conf", RT_RCDATA);
-	rstrmAvr_conf->SaveToFile(TPath::GetTempPath() + "avrdude.conf");
-
-	TResourceStream *rstrmAvr_exe = new TResourceStream((int)HInstance, L"Avrdude_exe", RT_RCDATA);
-	rstrmAvr_exe->SaveToFile(TPath::GetTempPath() + "avrdude.exe");
-}
-//---------------------------------------------------------------------------
-
 
 void __fastcall TGRA_AND_AFCH_FLASHER::LinkLabel1Click(TObject *Sender)
 {
@@ -348,8 +341,11 @@ String __fastcall TGRA_AND_AFCH_FLASHER::PrepareString()
 
     switch (DevicesComboBox->ItemIndex)
 	{
-		case 0: case 1: case 2: case 3: CPU ="atmega328p"; Programmer=" -carduino"; break;
-		case 4: CPU="atmega2560"; Programmer=" -cwiring"; break;
+	   //	case 0: case 1: case 2: case 3: CPU ="atmega328p"; Programmer=" -carduino"; break;
+	   //	case 4: CPU="atmega2560"; Programmer=" -cwiring"; break;
+
+	   case 0: case 1: case 2: case 3: CPU ="ATmega328P_except_bootloader"; Programmer=" -carduino"; break;
+       case 4: CPU="ATmega2560_except_bootloader"; Programmer=" -cwiring"; break;
 	};
 
 	return "-C" + TPath::GetTempPath() + "avrdude.conf -v -p" + CPU + Programmer + " -P" + COMPortComboBox->Text + " -b115200 -D -U"+ MemoryType +":" + Command + ":\"" + FileName + "\":i";

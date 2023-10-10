@@ -151,6 +151,11 @@
             <ResourceType>RCDATA</ResourceType>
             <ResourceId>Avrdude_exe</ResourceId>
         </RcItem>
+        <RcItem Include="avrdude.rc_">
+            <ContainerId>ResourceItem</ContainerId>
+            <ResourceType>RCDATA</ResourceType>
+            <ResourceId>Avrdude_rc</ResourceId>
+        </RcItem>
         <CppCompile Include="GA_Flasher_v2.cpp">
             <BuildOrder>0</BuildOrder>
         </CppCompile>
@@ -199,75 +204,6 @@
                 </Excluded_Packages>
             </CPlusPlusBuilder.Personality>
             <Deployment Version="4">
-                <DeployFile LocalName="$(BDS)\Redist\Win32\rtl280.bpl" Configuration="Release" Class="DependencyPackage">
-                    <Platform Name="Win32">
-                        <Overwrite>true</Overwrite>
-                    </Platform>
-                </DeployFile>
-                <DeployFile LocalName="$(BDS)\Redist\Win32\rtl280.de" Configuration="Release" Class="DependencyPackageResource">
-                    <Platform Name="Win32">
-                        <RemoteName>rtl280.de</RemoteName>
-                        <Overwrite>true</Overwrite>
-                    </Platform>
-                </DeployFile>
-                <DeployFile LocalName="$(BDS)\Redist\Win32\rtl280.fr" Configuration="Release" Class="DependencyPackageResource">
-                    <Platform Name="Win32">
-                        <RemoteName>rtl280.fr</RemoteName>
-                        <Overwrite>true</Overwrite>
-                    </Platform>
-                </DeployFile>
-                <DeployFile LocalName="$(BDS)\Redist\Win32\rtl280.ja" Configuration="Release" Class="DependencyPackageResource">
-                    <Platform Name="Win32">
-                        <RemoteName>rtl280.ja</RemoteName>
-                        <Overwrite>true</Overwrite>
-                    </Platform>
-                </DeployFile>
-                <DeployFile LocalName="$(BDS)\Redist\Win32\vcl280.bpl" Configuration="Release" Class="DependencyPackage">
-                    <Platform Name="Win32">
-                        <Overwrite>true</Overwrite>
-                    </Platform>
-                </DeployFile>
-                <DeployFile LocalName="$(BDS)\Redist\Win32\vcl280.de" Configuration="Release" Class="DependencyPackageResource">
-                    <Platform Name="Win32">
-                        <RemoteName>vcl280.de</RemoteName>
-                        <Overwrite>true</Overwrite>
-                    </Platform>
-                </DeployFile>
-                <DeployFile LocalName="$(BDS)\Redist\Win32\vcl280.fr" Configuration="Release" Class="DependencyPackageResource">
-                    <Platform Name="Win32">
-                        <RemoteName>vcl280.fr</RemoteName>
-                        <Overwrite>true</Overwrite>
-                    </Platform>
-                </DeployFile>
-                <DeployFile LocalName="$(BDS)\Redist\Win32\vcl280.ja" Configuration="Release" Class="DependencyPackageResource">
-                    <Platform Name="Win32">
-                        <RemoteName>vcl280.ja</RemoteName>
-                        <Overwrite>true</Overwrite>
-                    </Platform>
-                </DeployFile>
-                <DeployFile LocalName="$(BDS)\Redist\Win32\vclimg280.bpl" Configuration="Release" Class="DependencyPackage">
-                    <Platform Name="Win32">
-                        <Overwrite>true</Overwrite>
-                    </Platform>
-                </DeployFile>
-                <DeployFile LocalName="$(BDS)\Redist\Win32\vclimg280.de" Configuration="Release" Class="DependencyPackageResource">
-                    <Platform Name="Win32">
-                        <RemoteName>vclimg280.de</RemoteName>
-                        <Overwrite>true</Overwrite>
-                    </Platform>
-                </DeployFile>
-                <DeployFile LocalName="$(BDS)\Redist\Win32\vclimg280.fr" Configuration="Release" Class="DependencyPackageResource">
-                    <Platform Name="Win32">
-                        <RemoteName>vclimg280.fr</RemoteName>
-                        <Overwrite>true</Overwrite>
-                    </Platform>
-                </DeployFile>
-                <DeployFile LocalName="$(BDS)\Redist\Win32\vclimg280.ja" Configuration="Release" Class="DependencyPackageResource">
-                    <Platform Name="Win32">
-                        <RemoteName>vclimg280.ja</RemoteName>
-                        <Overwrite>true</Overwrite>
-                    </Platform>
-                </DeployFile>
                 <DeployFile Condition="'$(DynamicRTL)'=='true'" LocalName="$(BDS)\Redist\osx32\libcgcrtl.dylib" Class="DependencyModule">
                     <Platform Name="OSX32">
                         <Overwrite>true</Overwrite>
@@ -377,6 +313,12 @@
                     </Platform>
                 </DeployFile>
                 <DeployFile LocalName="avrdude.exe" Configuration="Release" Class="ProjectFile">
+                    <Platform Name="Win32">
+                        <RemoteDir>.\</RemoteDir>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile LocalName="avrdude.rc_" Configuration="Release" Class="ProjectFile">
                     <Platform Name="Win32">
                         <RemoteDir>.\</RemoteDir>
                         <Overwrite>true</Overwrite>

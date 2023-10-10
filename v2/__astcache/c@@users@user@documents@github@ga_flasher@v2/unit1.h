@@ -42,7 +42,6 @@ __published:	// IDE-managed Components
 	void __fastcall FormCreate(TObject *Sender);
 	void __fastcall HintSpeedButtonClick(TObject *Sender);
 	void __fastcall OpenHEXBitBtnClick(TObject *Sender);
-	void __fastcall Button1Click(TObject *Sender);
 	void __fastcall LinkLabel1Click(TObject *Sender);
 	void __fastcall Image1Click(TObject *Sender);
 	void __fastcall ReadFlashButtonClick(TObject *Sender);
