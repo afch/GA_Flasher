@@ -1,4 +1,4 @@
-﻿//---------------------------------------------------------------------------
+//---------------------------------------------------------------------------
 
 #include <vcl.h>
 #pragma hdrstop
@@ -205,7 +205,7 @@ void __fastcall TGRA_AND_AFCH_FLASHER::RunAvrDude(String Params)
 
 //String AppName = L"c:\\avrdude.exe -Cc:\\avrdude.conf -v -patmega328p -carduino -PCOM3 -b115200 -D -Uflash:w:\"C:\\fw.hex\":i";
 
-Params = StringReplace(Params, "\\", "\\\\", TReplaceFlags() << rfReplaceAll );
+//Params = StringReplace(Params, "\\", "\\\\", TReplaceFlags() << rfReplaceAll );
 
 String AppName = TPath::GetTempPath() + L"avrdude.exe " +  Params;
 Memo1->Lines->Add(AppName);
@@ -213,7 +213,7 @@ Memo1->Lines->Add(AppName);
 SECURITY_ATTRIBUTES Security;
 HANDLE ReadPipe, WritePipe;
 STARTUPINFO Start;
-TProcessInformation ProcessInfo;
+//TProcessInformation ProcessInfo;
 char *Buffer, Data;
 DWORD BytesRead, Apprunning;
 int Result, DataSize;
@@ -236,6 +236,7 @@ if (CreatePipe(&ReadPipe, &WritePipe, &Security, 0))
 
   if (CreateProcess(NULL, AppName.c_str(), &Security, &Security, true, NORMAL_PRIORITY_CLASS | CREATE_NEW_CONSOLE, NULL, NULL, &Start, &ProcessInfo))
 	{
+	CancelButton->Enabled = true;
     do
       {
 	  Apprunning = WaitForSingleObject(ProcessInfo.hProcess, 1);
@@ -265,6 +266,8 @@ if (CreatePipe(&ReadPipe, &WritePipe, &Security, 0))
   CloseHandle(ProcessInfo.hThread);
   CloseHandle(ReadPipe);
   CloseHandle(WritePipe);
+
+  CancelButton->Enabled = false;
   }
 }
 //---------------------------------------------------------------------------
@@ -339,14 +342,17 @@ String __fastcall TGRA_AND_AFCH_FLASHER::PrepareString()
    	String CPU;
 	String Programmer;
 
-    switch (DevicesComboBox->ItemIndex)
-	{
-	   //	case 0: case 1: case 2: case 3: CPU ="atmega328p"; Programmer=" -carduino"; break;
-	   //	case 4: CPU="atmega2560"; Programmer=" -cwiring"; break;
-
-	   case 0: case 1: case 2: case 3: CPU ="ATmega328P_except_bootloader"; Programmer=" -carduino"; break;
-       case 4: CPU="ATmega2560_except_bootloader"; Programmer=" -cwiring"; break;
-	};
+	if (BootloaderCheckBox->Checked == true)
+		switch (DevicesComboBox->ItemIndex)
+		{
+			case 0: case 1: case 2: case 3: CPU ="atmega328p"; Programmer=" -carduino"; break;
+			case 4: CPU="atmega2560"; Programmer=" -cwiring"; break;
+		} else
+		switch (DevicesComboBox->ItemIndex)
+		{
+			case 0: case 1: case 2: case 3: CPU ="ATmega328P_except_bootloader"; Programmer=" -carduino"; break;
+			case 4: CPU="ATmega2560_except_bootloader"; Programmer=" -cwiring"; break;
+		}
 
 	return "-C" + TPath::GetTempPath() + "avrdude.conf -v -p" + CPU + Programmer + " -P" + COMPortComboBox->Text + " -b115200 -D -U"+ MemoryType +":" + Command + ":\"" + FileName + "\":i";
 }
@@ -387,3 +393,23 @@ void __fastcall TGRA_AND_AFCH_FLASHER::DisableAllButtons(boolean Disable)
 	ReadEEPROMButton->Enabled = !Disable;
 	WriteEEPROMButton->Enabled = !Disable;
 }
+void __fastcall TGRA_AND_AFCH_FLASHER::CancelButtonClick(TObject *Sender)
+{
+		  TerminateProcess(ProcessInfo.hProcess, 1);
+		  CancelButton->Enabled = false;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TGRA_AND_AFCH_FLASHER::FormPaint(TObject *Sender)
+{
+	Image1->Left = GRA_AND_AFCH_FLASHER->Width/2 - Image1->Width/2;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TGRA_AND_AFCH_FLASHER::FormResize(TObject *Sender)
+{
+       Image1->Left = GRA_AND_AFCH_FLASHER->Width/2 - Image1->Width/2;
+}
+//---------------------------------------------------------------------------
+
+

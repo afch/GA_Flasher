@@ -2,12 +2,12 @@ object GRA_AND_AFCH_FLASHER: TGRA_AND_AFCH_FLASHER
   Left = 0
   Top = 0
   Margins.Right = 0
-  Caption = 'GRA & AFCH Nixie Tubes Clocks / Arduino Flasher v2'
-  ClientHeight = 387
-  ClientWidth = 485
+  Caption = 'GRA & AFCH Nixie Tubes Clocks / Arduino Flasher v2.2'
+  ClientHeight = 416
+  ClientWidth = 506
   Color = clBtnFace
-  Constraints.MinHeight = 374
-  Constraints.MinWidth = 473
+  Constraints.MinHeight = 454
+  Constraints.MinWidth = 518
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
   Font.Height = -11
@@ -15,9 +15,11 @@ object GRA_AND_AFCH_FLASHER: TGRA_AND_AFCH_FLASHER
   Font.Style = []
   Position = poScreenCenter
   OnCreate = FormCreate
+  OnPaint = FormPaint
+  OnResize = FormResize
   DesignSize = (
-    485
-    387)
+    506
+    416)
   TextHeight = 13
   object Label1: TLabel
     Left = 8
@@ -59,7 +61,7 @@ object GRA_AND_AFCH_FLASHER: TGRA_AND_AFCH_FLASHER
     ParentFont = False
   end
   object HintSpeedButton: TSpeedButton
-    Left = 352
+    Left = 373
     Top = 47
     Width = 23
     Height = 22
@@ -111,11 +113,12 @@ object GRA_AND_AFCH_FLASHER: TGRA_AND_AFCH_FLASHER
     ExplicitLeft = 356
   end
   object Image1: TImage
-    Left = 199
-    Top = 134
+    Left = 215
+    Top = 151
     Width = 82
-    Height = 48
+    Height = 46
     Cursor = crHandPoint
+    AutoSize = True
     Picture.Data = {
       0A544A504547496D616765FE0A0000FFD8FFE100224578696600004D4D002A00
       000008000101120003000000010001000000000000FFFE003350726F63657373
@@ -208,25 +211,47 @@ object GRA_AND_AFCH_FLASHER: TGRA_AND_AFCH_FLASHER
       0011FF00AEB3A542EBDEBFFFD9}
     OnClick = Image1Click
   end
+  object GroupBox2: TGroupBox
+    Left = 313
+    Top = 126
+    Width = 185
+    Height = 130
+    Anchors = [akTop, akRight]
+    Caption = 'FLASH (Firmware)'
+    TabOrder = 13
+  end
+  object GroupBox1: TGroupBox
+    Left = 8
+    Top = 126
+    Width = 193
+    Height = 130
+    Caption = 'EEPROM (Settings)'
+    TabOrder = 12
+  end
   object FlashButton: TButton
-    Left = 287
-    Top = 118
-    Width = 181
-    Height = 87
+    Left = 322
+    Top = 151
+    Width = 165
+    Height = 25
     Hint = 'Choose only those *.HEX files that do NOT contain Bootloader!'
     Align = alCustom
-    Anchors = [akLeft, akTop, akRight]
-    Caption = 'Upload FLASH (Firmware) to Device'
+    Anchors = [akTop, akRight]
+    Caption = 'Upload to Device'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -11
+    Font.Name = 'Tahoma'
+    Font.Style = [fsBold]
+    ParentFont = False
     ParentShowHint = False
     ShowHint = True
     TabOrder = 2
     OnClick = FlashButtonClick
-    ExplicitWidth = 177
   end
   object COMPortComboBox: TComboBox
     Left = 101
     Top = 8
-    Width = 176
+    Width = 197
     Height = 21
     Align = alCustom
     Style = csDropDownList
@@ -236,21 +261,21 @@ object GRA_AND_AFCH_FLASHER: TGRA_AND_AFCH_FLASHER
     ExplicitWidth = 172
   end
   object SearchPortBitBtn: TBitBtn
-    Left = 283
+    Left = 304
     Top = 6
-    Width = 186
+    Width = 194
     Height = 25
     Align = alCustom
     Anchors = [akTop, akRight]
     Caption = 'Search for available ports'
     TabOrder = 4
     OnClick = SearchPortBitBtnClick
-    ExplicitLeft = 279
+    ExplicitLeft = 299
   end
   object OpenFileEdit: TEdit
     Left = 101
     Top = 48
-    Width = 251
+    Width = 266
     Height = 21
     Hint = 'Choose only those *.HEX files that do NOT contain Bootloader!'
     Align = alCustom
@@ -258,44 +283,50 @@ object GRA_AND_AFCH_FLASHER: TGRA_AND_AFCH_FLASHER
     ParentShowHint = False
     ShowHint = True
     TabOrder = 5
-    ExplicitWidth = 247
   end
   object OpenHEXBitBtn: TBitBtn
-    Left = 381
+    Left = 402
     Top = 47
-    Width = 88
+    Width = 96
     Height = 23
     Align = alCustom
     Anchors = [akTop, akRight]
-    Caption = 'Open *.HEX File'
+    Caption = 'Open File'
     TabOrder = 0
     OnClick = OpenHEXBitBtnClick
-    ExplicitLeft = 377
+    ExplicitLeft = 397
   end
   object DevicesComboBox: TComboBox
     Left = 100
     Top = 85
-    Width = 368
+    Width = 398
     Height = 21
     Align = alCustom
     Style = csDropDownList
     Anchors = [akLeft, akTop, akRight]
     ItemIndex = 3
     TabOrder = 1
-    Text = 'Arduino Shield NCS314 / NCS312 - Arduino UNO (Atmega328p)'
+    Text = 
+      'Arduino Shield NCS314 / NCS312 / NCS318 - Arduino UNO (Atmega328' +
+      'p)'
+    OnChange = DevicesComboBoxChange
     Items.Strings = (
       'MCU 105 (Atmega328p)'
       'MCU 107 (Atmega328p)'
       'MCU 109 (Atmega328p)'
-      'Arduino Shield NCS314 / NCS312 - Arduino UNO (Atmega328p)'
-      'Arduino Shield NCS314 / NCS312 - Arduino Mega 2560 (Atmega2560)')
-    ExplicitWidth = 364
+      
+        'Arduino Shield NCS314 / NCS312 / NCS318 - Arduino UNO (Atmega328' +
+        'p)'
+      
+        'Arduino Shield NCS314 / NCS312 / NCS318 - Arduino Mega 2560 (Atm' +
+        'ega2560)')
+    ExplicitWidth = 393
   end
   object Memo1: TMemo
     Left = 0
-    Top = 220
-    Width = 484
-    Height = 169
+    Top = 305
+    Width = 506
+    Height = 113
     Margins.Right = 0
     TabStop = False
     Align = alCustom
@@ -308,14 +339,14 @@ object GRA_AND_AFCH_FLASHER: TGRA_AND_AFCH_FLASHER
     ParentFont = False
     ScrollBars = ssBoth
     TabOrder = 6
-    ExplicitWidth = 480
-    ExplicitHeight = 168
+    ExplicitHeight = 231
   end
   object LinkLabel1: TLinkLabel
-    Left = 209
-    Top = 188
+    Left = 225
+    Top = 229
     Width = 72
     Height = 17
+    Anchors = [akTop]
     Caption = '<a href="http://www.gra-afch.com">GRA && AFCH</a>'
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
@@ -326,49 +357,79 @@ object GRA_AND_AFCH_FLASHER: TGRA_AND_AFCH_FLASHER
     TabOrder = 7
     OnClick = LinkLabel1Click
   end
-  object ReadFlashButton: TButton
-    Left = 8
-    Top = 118
-    Width = 185
-    Height = 25
-    Caption = 'Backup FLASH (Firmware) to File'
-    TabOrder = 8
-    OnClick = ReadFlashButtonClick
-  end
   object ReadEEPROMButton: TButton
-    Left = 8
-    Top = 149
-    Width = 185
+    Left = 18
+    Top = 206
+    Width = 173
     Height = 25
-    Caption = 'Backup EEPROM (Settings) to File'
+    Caption = 'Backup (Save to File)'
     TabOrder = 9
     OnClick = ReadEEPROMButtonClick
   end
   object WriteEEPROMButton: TButton
-    Left = 8
-    Top = 180
-    Width = 185
+    Left = 18
+    Top = 153
+    Width = 173
     Height = 25
-    Caption = 'Upload EEPROM (Settings) to Device'
+    Caption = 'Upload to Device'
     TabOrder = 10
     OnClick = WriteEEPROMButtonClick
+  end
+  object CancelButton: TButton
+    Left = 8
+    Top = 270
+    Width = 490
+    Height = 25
+    Anchors = [akLeft, akTop, akRight]
+    Caption = 'Cancel'
+    Enabled = False
+    TabOrder = 11
+    OnClick = CancelButtonClick
+  end
+  object GroupBox3: TGroupBox
+    Left = 313
+    Top = 186
+    Width = 185
+    Height = 70
+    Anchors = [akTop, akRight]
+    TabOrder = 15
+  end
+  object BootloaderCheckBox: TCheckBox
+    Left = 334
+    Top = 229
+    Width = 139
+    Height = 17
+    Anchors = [akTop, akRight]
+    Caption = 'Including the bootloader'
+    TabOrder = 14
+  end
+  object ReadFlashButton: TButton
+    Left = 322
+    Top = 198
+    Width = 165
+    Height = 25
+    Anchors = [akTop, akRight]
+    Caption = 'Backup (Save to File)'
+    TabOrder = 8
+    OnClick = ReadFlashButtonClick
+    ExplicitLeft = 317
   end
   object OpenDialog1: TOpenDialog
     DefaultExt = '.hex'
     Filter = 'Arduinno compiled sketch or EEPROM|*.hex;*.eep'
-    Left = 27
-    Top = 223
+    Left = 22
+    Top = 313
   end
   object Timer1: TTimer
     OnTimer = Timer1Timer
-    Left = 91
-    Top = 226
+    Left = 81
+    Top = 311
   end
   object SaveDialog1: TSaveDialog
     FileName = 'backup.hex'
     Filter = 'FLASH or EEPROM Files|*.hex; *.eep'
     Options = [ofOverwritePrompt, ofHideReadOnly, ofEnableSizing]
-    Left = 145
-    Top = 225
+    Left = 135
+    Top = 310
   end
 end

@@ -1,4 +1,4 @@
-﻿//---------------------------------------------------------------------------
+//---------------------------------------------------------------------------
 
 #ifndef Unit1H
 #define Unit1H
@@ -36,6 +36,11 @@ __published:	// IDE-managed Components
 	TButton *WriteEEPROMButton;
 	TImage *Image1;
 	TSaveDialog *SaveDialog1;
+	TButton *CancelButton;
+	TGroupBox *GroupBox1;
+	TGroupBox *GroupBox2;
+	TCheckBox *BootloaderCheckBox;
+	TGroupBox *GroupBox3;
 	void __fastcall FlashButtonClick(TObject *Sender);
 	void __fastcall Timer1Timer(TObject *Sender);
 	void __fastcall SearchPortBitBtnClick(TObject *Sender);
@@ -47,6 +52,9 @@ __published:	// IDE-managed Components
 	void __fastcall ReadFlashButtonClick(TObject *Sender);
 	void __fastcall ReadEEPROMButtonClick(TObject *Sender);
 	void __fastcall WriteEEPROMButtonClick(TObject *Sender);
+	void __fastcall CancelButtonClick(TObject *Sender);
+	void __fastcall FormPaint(TObject *Sender);
+	void __fastcall FormResize(TObject *Sender);
 	private:	// User declarations
 public:		// User declarations
 	__fastcall TGRA_AND_AFCH_FLASHER(TComponent* Owner);
@@ -58,7 +66,9 @@ public:		// User declarations
     void __fastcall DisableAllButtons(boolean Disable);
 	String MemoryType;
 	String Command;
-    String FileName;
+	String FileName;
+	TProcessInformation ProcessInfo;
+	Boolean bAvrDudeRunning;
 };
 //---------------------------------------------------------------------------
 extern PACKAGE TGRA_AND_AFCH_FLASHER *GRA_AND_AFCH_FLASHER;
