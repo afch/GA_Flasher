@@ -13,6 +13,7 @@ object GRA_AND_AFCH_FLASHER: TGRA_AND_AFCH_FLASHER
   Font.Height = -11
   Font.Name = 'Tahoma'
   Font.Style = []
+  Menu = MainMenu1
   Position = poScreenCenter
   OnCreate = FormCreate
   OnPaint = FormPaint
@@ -465,5 +466,30 @@ object GRA_AND_AFCH_FLASHER: TGRA_AND_AFCH_FLASHER
     FileName = 'stk500boot_v2_mega2560.hex'
     Left = 235
     Top = 315
+  end
+  object MainMenu1: TMainMenu
+    Left = 275
+    Top = 315
+    object File1: TMenuItem
+      Caption = 'File'
+      object SaveFixedATmega2560Bootloader1: TMenuItem
+        Caption = 'Save Fixed ATmega2560 Bootloader'
+        OnClick = SaveFixedATmega2560Bootloader1Click
+      end
+    end
+    object Help1: TMenuItem
+      Caption = 'Help'
+      object HowtoburnBootloaderinArduinoIDE1: TMenuItem
+        Caption = 'How to burn Bootloader in Arduino IDE'
+        OnClick = HowtoburnBootloaderinArduinoIDE1Click
+      end
+      object N1: TMenuItem
+        Caption = '-'
+      end
+      object About1: TMenuItem
+        Caption = 'About'
+        OnClick = About1Click
+      end
+    end
   end
 end

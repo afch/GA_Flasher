@@ -552,3 +552,35 @@ void __fastcall TGRA_AND_AFCH_FLASHER::SaveFBLButtonClick(TObject *Sender)
 }
 //---------------------------------------------------------------------------
 
+void __fastcall TGRA_AND_AFCH_FLASHER::HowtoburnBootloaderinArduinoIDE1Click(TObject *Sender)
+{
+	ShellExecute(0, 0, L"https://gra-afch.com/how-to-burn-or-update-bootloader-in-arduino-ide/", 0, 0, SW_SHOW);
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TGRA_AND_AFCH_FLASHER::SaveFixedATmega2560Bootloader1Click(TObject *Sender)
+
+{
+    FileName = OpenFBLSaveDialog();
+	  if (FileName != "")
+	  {
+		try
+			{
+			TResourceStream *rstrmFixed_Bootloader_HEX = new TResourceStream((int)HInstance, L"Fixed_Bootloader_HEX", RT_RCDATA);
+			rstrmFixed_Bootloader_HEX->SaveToFile(FileName);
+			} catch(const Exception& e)
+			{
+				ShowMessage(e.Message);
+				return;
+			}
+		ShowMessage("Saved");
+	  }
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TGRA_AND_AFCH_FLASHER::About1Click(TObject *Sender)
+{
+    ShowMessage("Arduino Flasher v2.2 by GRA & AFCH.\ngra-afch.com\nfominalec@gra-afch.com");
+}
+//---------------------------------------------------------------------------
+
