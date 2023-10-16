@@ -41,6 +41,10 @@ __published:	// IDE-managed Components
 	TGroupBox *GroupBox2;
 	TCheckBox *BootloaderCheckBox;
 	TGroupBox *GroupBox3;
+	TButton *SaveFBLButton;
+	TImageList *ImageList1;
+	TGroupBox *GroupBox4;
+	TSaveDialog *FixedBLSaveDialog;
 	void __fastcall FlashButtonClick(TObject *Sender);
 	void __fastcall Timer1Timer(TObject *Sender);
 	void __fastcall SearchPortBitBtnClick(TObject *Sender);
@@ -55,6 +59,8 @@ __published:	// IDE-managed Components
 	void __fastcall CancelButtonClick(TObject *Sender);
 	void __fastcall FormPaint(TObject *Sender);
 	void __fastcall FormResize(TObject *Sender);
+	void __fastcall DevicesComboBoxChange(TObject *Sender);
+	void __fastcall SaveFBLButtonClick(TObject *Sender);
 	private:	// User declarations
 public:		// User declarations
 	__fastcall TGRA_AND_AFCH_FLASHER(TComponent* Owner);
@@ -63,12 +69,17 @@ public:		// User declarations
 	void __fastcall RunAvrDude(String Params);
 	String __fastcall PrepareString();
 	Boolean __fastcall RequirementsCheck();
-    void __fastcall DisableAllButtons(boolean Disable);
+	void __fastcall DisableAllButtons(boolean Disable);
+	Boolean __fastcall ReplaceBootLoader(String strFileName);
+	String __fastcall OpenFBLSaveDialog();
+	String __fastcall LookingForDefaultBootLoader();
 	String MemoryType;
 	String Command;
 	String FileName;
 	TProcessInformation ProcessInfo;
 	Boolean bAvrDudeRunning;
+	String CPU;
+	String Programmer;
 };
 //---------------------------------------------------------------------------
 extern PACKAGE TGRA_AND_AFCH_FLASHER *GRA_AND_AFCH_FLASHER;

@@ -219,6 +219,7 @@ object GRA_AND_AFCH_FLASHER: TGRA_AND_AFCH_FLASHER
     Anchors = [akTop, akRight]
     Caption = 'FLASH (Firmware)'
     TabOrder = 13
+    ExplicitLeft = 309
   end
   object GroupBox1: TGroupBox
     Left = 8
@@ -227,6 +228,13 @@ object GRA_AND_AFCH_FLASHER: TGRA_AND_AFCH_FLASHER
     Height = 130
     Caption = 'EEPROM (Settings)'
     TabOrder = 12
+    object GroupBox4: TGroupBox
+      Left = 0
+      Top = 91
+      Width = 250
+      Height = 99
+      TabOrder = 0
+    end
   end
   object FlashButton: TButton
     Left = 322
@@ -247,6 +255,7 @@ object GRA_AND_AFCH_FLASHER: TGRA_AND_AFCH_FLASHER
     ShowHint = True
     TabOrder = 2
     OnClick = FlashButtonClick
+    ExplicitLeft = 318
   end
   object COMPortComboBox: TComboBox
     Left = 101
@@ -258,7 +267,7 @@ object GRA_AND_AFCH_FLASHER: TGRA_AND_AFCH_FLASHER
     Anchors = [akLeft, akTop, akRight]
     Sorted = True
     TabOrder = 3
-    ExplicitWidth = 172
+    ExplicitWidth = 193
   end
   object SearchPortBitBtn: TBitBtn
     Left = 304
@@ -270,7 +279,7 @@ object GRA_AND_AFCH_FLASHER: TGRA_AND_AFCH_FLASHER
     Caption = 'Search for available ports'
     TabOrder = 4
     OnClick = SearchPortBitBtnClick
-    ExplicitLeft = 299
+    ExplicitLeft = 300
   end
   object OpenFileEdit: TEdit
     Left = 101
@@ -283,6 +292,7 @@ object GRA_AND_AFCH_FLASHER: TGRA_AND_AFCH_FLASHER
     ParentShowHint = False
     ShowHint = True
     TabOrder = 5
+    ExplicitWidth = 262
   end
   object OpenHEXBitBtn: TBitBtn
     Left = 402
@@ -294,7 +304,7 @@ object GRA_AND_AFCH_FLASHER: TGRA_AND_AFCH_FLASHER
     Caption = 'Open File'
     TabOrder = 0
     OnClick = OpenHEXBitBtnClick
-    ExplicitLeft = 397
+    ExplicitLeft = 398
   end
   object DevicesComboBox: TComboBox
     Left = 100
@@ -320,7 +330,7 @@ object GRA_AND_AFCH_FLASHER: TGRA_AND_AFCH_FLASHER
       
         'Arduino Shield NCS314 / NCS312 / NCS318 - Arduino Mega 2560 (Atm' +
         'ega2560)')
-    ExplicitWidth = 393
+    ExplicitWidth = 394
   end
   object Memo1: TMemo
     Left = 0
@@ -339,7 +349,8 @@ object GRA_AND_AFCH_FLASHER: TGRA_AND_AFCH_FLASHER
     ParentFont = False
     ScrollBars = ssBoth
     TabOrder = 6
-    ExplicitHeight = 231
+    ExplicitWidth = 502
+    ExplicitHeight = 112
   end
   object LinkLabel1: TLinkLabel
     Left = 225
@@ -356,13 +367,14 @@ object GRA_AND_AFCH_FLASHER: TGRA_AND_AFCH_FLASHER
     ParentFont = False
     TabOrder = 7
     OnClick = LinkLabel1Click
+    ExplicitLeft = 223
   end
   object ReadEEPROMButton: TButton
     Left = 18
-    Top = 206
+    Top = 186
     Width = 173
     Height = 25
-    Caption = 'Backup (Save to File)'
+    Caption = 'Save to File (Backup )'
     TabOrder = 9
     OnClick = ReadEEPROMButtonClick
   end
@@ -385,6 +397,7 @@ object GRA_AND_AFCH_FLASHER: TGRA_AND_AFCH_FLASHER
     Enabled = False
     TabOrder = 11
     OnClick = CancelButtonClick
+    ExplicitWidth = 486
   end
   object GroupBox3: TGroupBox
     Left = 313
@@ -393,6 +406,7 @@ object GRA_AND_AFCH_FLASHER: TGRA_AND_AFCH_FLASHER
     Height = 70
     Anchors = [akTop, akRight]
     TabOrder = 15
+    ExplicitLeft = 309
   end
   object BootloaderCheckBox: TCheckBox
     Left = 334
@@ -402,6 +416,7 @@ object GRA_AND_AFCH_FLASHER: TGRA_AND_AFCH_FLASHER
     Anchors = [akTop, akRight]
     Caption = 'Including the bootloader'
     TabOrder = 14
+    ExplicitLeft = 330
   end
   object ReadFlashButton: TButton
     Left = 322
@@ -409,10 +424,20 @@ object GRA_AND_AFCH_FLASHER: TGRA_AND_AFCH_FLASHER
     Width = 165
     Height = 25
     Anchors = [akTop, akRight]
-    Caption = 'Backup (Save to File)'
+    Caption = 'Save to File (Backup)'
     TabOrder = 8
     OnClick = ReadFlashButtonClick
-    ExplicitLeft = 317
+    ExplicitLeft = 318
+  end
+  object SaveFBLButton: TButton
+    Left = 18
+    Top = 225
+    Width = 173
+    Height = 25
+    Caption = 'Save Fixed Bootloader'
+    Enabled = False
+    TabOrder = 16
+    OnClick = SaveFBLButtonClick
   end
   object OpenDialog1: TOpenDialog
     DefaultExt = '.hex'
@@ -431,5 +456,14 @@ object GRA_AND_AFCH_FLASHER: TGRA_AND_AFCH_FLASHER
     Options = [ofOverwritePrompt, ofHideReadOnly, ofEnableSizing]
     Left = 135
     Top = 310
+  end
+  object ImageList1: TImageList
+    Left = 185
+    Top = 315
+  end
+  object FixedBLSaveDialog: TSaveDialog
+    FileName = 'stk500boot_v2_mega2560.hex'
+    Left = 235
+    Top = 315
   end
 end

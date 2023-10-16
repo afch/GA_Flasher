@@ -6,6 +6,12 @@
 #include "Unit1.h"
 #include <StrUtils.hpp> //PosEx
 #include <IOUtils.hpp> //getpath
+#include <dirent.h> //DIR type
+
+#include <cstddef>
+#include <iostream>
+#include <string>
+using namespace std;
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 #pragma resource "*.dfm"
@@ -179,6 +185,8 @@ void __fastcall TGRA_AND_AFCH_FLASHER::FormCreate(TObject *Sender)
 
 	TResourceStream *rstrmAvr_rc = new TResourceStream((int)HInstance, L"Avrdude_rc", RT_RCDATA);
 	rstrmAvr_rc->SaveToFile(TPath::GetTempPath() + "avrdude.rc");
+
+	PrepareString();
 }
 //---------------------------------------------------------------------------
 
@@ -250,7 +258,7 @@ if (CreatePipe(&ReadPipe, &WritePipe, &Security, 0))
           ReadFile(ReadPipe, Buffer, DataSize, &BytesRead, NULL);
 		  Buffer[BytesRead] = 0;
 		  OemToAnsi(Buffer, Buffer);
-          Memo1->SelStart = Memo1->GetTextLen();
+		  Memo1->SelStart = Memo1->GetTextLen();
 		  Memo1->SelText = (AnsiString) Buffer;
 		  }
 		}
@@ -305,9 +313,18 @@ void __fastcall TGRA_AND_AFCH_FLASHER::ReadFlashButtonClick(TObject *Sender)
 
 void __fastcall TGRA_AND_AFCH_FLASHER::ReadEEPROMButtonClick(TObject *Sender)
 {
+	if (CPU == "atmega328p" || CPU == "ATmega328P_except_bootloader")
+	{
+		UnicodeString Text = "EEPROM Reading is not supported by default Optiboot bootloader! Do You want to try anyway?";
+		if (MessageDlg(Text, mtConfirmation, TMsgDlgButtons() << mbYes << mbNo, 0, mbNo) != mrYes)
+		{
+			return;
+		}
+	}
+
 	SaveDialog1->FileName = "EEPROMBackup.eep";
 	//SaveDialog1->DefaultExt = "*.eep";
-    SaveDialog1->Title ="Select where to Save the EEPROM (Settings) from your Device";
+	SaveDialog1->Title ="Select where to Save the EEPROM (Settings) from your Device";
 	if (!SaveDialog1->Execute()) return;
 	FileName = SaveDialog1->FileName;
 	MemoryType = EEPROM_MEMORY;
@@ -324,6 +341,21 @@ void __fastcall TGRA_AND_AFCH_FLASHER::ReadEEPROMButtonClick(TObject *Sender)
 
 void __fastcall TGRA_AND_AFCH_FLASHER::WriteEEPROMButtonClick(TObject *Sender)
 {
+	if (CPU == "atmega328p" || CPU == "ATmega328P_except_bootloader")
+	{
+		UnicodeString Text = "EEPROM Writing is not supported by default Optiboot bootloader! Do You want to try anyway?";
+		if (MessageDlg(Text, mtConfirmation, TMsgDlgButtons() << mbYes << mbNo, 0, mbNo) != mrYes)
+		{
+			return;
+		}
+	}
+
+	if (CPU == "atmega2560" || CPU == "ATmega2560_except_bootloader")
+	{
+		UnicodeString Text = "The default bootloader has an error preventing correct EEPROM reading, so verification will never pass, even if writing is successful!";
+		MessageDlg(Text, mtInformation, TMsgDlgButtons() << mbOK, 0);
+	}
+
 	MemoryType = EEPROM_MEMORY;
 	Command = WRITE_COMMAND;
 	FileName = OpenFileEdit->Text;
@@ -339,10 +371,7 @@ void __fastcall TGRA_AND_AFCH_FLASHER::WriteEEPROMButtonClick(TObject *Sender)
 
 String __fastcall TGRA_AND_AFCH_FLASHER::PrepareString()
 {
-   	String CPU;
-	String Programmer;
-
-	if (BootloaderCheckBox->Checked == true)
+    if (BootloaderCheckBox->Checked == true)
 		switch (DevicesComboBox->ItemIndex)
 		{
 			case 0: case 1: case 2: case 3: CPU ="atmega328p"; Programmer=" -carduino"; break;
@@ -412,4 +441,114 @@ void __fastcall TGRA_AND_AFCH_FLASHER::FormResize(TObject *Sender)
 }
 //---------------------------------------------------------------------------
 
+
+void __fastcall TGRA_AND_AFCH_FLASHER::DevicesComboBoxChange(TObject *Sender)
+{
+	PrepareString();
+	if (DevicesComboBox->ItemIndex == 4) SaveFBLButton->Enabled = true;
+	else SaveFBLButton->Enabled = false;
+}
+//---------------------------------------------------------------------------
+
+
+
+String __fastcall TGRA_AND_AFCH_FLASHER::OpenFBLSaveDialog()
+{
+	FixedBLSaveDialog->Title ="Select where to Save FIXED Bootloader for ATmega2560";
+	if (FixedBLSaveDialog->Execute()) return FixedBLSaveDialog->FileName;
+	return "";
+}
+
+// true if ok, false if error
+Boolean __fastcall TGRA_AND_AFCH_FLASHER::ReplaceBootLoader(String strFileName)
+{
+	 //ShowMessage(strFileName);
+	TResourceStream *rstrmFBL_HEX = new TResourceStream((int)HInstance, L"Fixed_Bootloader_HEX", RT_RCDATA);
+	try
+	{
+		rstrmFBL_HEX->SaveToFile(strFileName);
+	} catch (const Exception& e)
+	{
+		ShowMessage("Failed to write the file: " + e.Message);
+		return false;
+	}
+
+	return true;
+	/*UnicodeString Text = "EEPROM Writing is not supported by default Optiboot bootloader! Do You want to try anyway?";
+	if (MessageDlg(Text, mtConfirmation, TMsgDlgButtons() << mbYes << mbNo, 0, mbNo) != mrYes) */
+}
+
+String __fastcall TGRA_AND_AFCH_FLASHER::LookingForDefaultBootLoader()
+{
+    char* appdata = std::getenv("APPDATA");
+	String strAppData = String(appdata).SubString(0, string(appdata).find_last_of("\\"));
+	String strFullPath="";
+	String strPkgVer;
+	strAppData = strAppData + "\\Local\\Arduino15\\packages\\arduino\\hardware\\avr\\";
+	DIR *dir;
+	try
+	{
+		dir = opendir(AnsiString(strAppData).c_str());
+		readdir(dir);   //.
+		readdir(dir);   //..
+		strPkgVer = readdir(dir)->d_name;  // Package version (if exist)
+	} catch (const Exception& e)
+	{
+		return "";
+	}
+	strFullPath = strAppData + strPkgVer + "\\bootloaders\\stk500v2\\stk500boot_v2_mega2560.hex";
+	if (FileExists(strFullPath))
+	{
+		return strFullPath;
+	}  else
+	{
+		return "";
+	}
+}
+void __fastcall TGRA_AND_AFCH_FLASHER::SaveFBLButtonClick(TObject *Sender)
+{
+	UnicodeString Text = "Replace \"stk500boot_v2_mega2560.hex\" Bootloader in Arduino IDE for ATmega2560 with Fixed version?";
+	int ReplaceAnswer, MoreInfoAnswer;
+	String strPath, FileName;
+
+	ReplaceAnswer = MessageDlg(Text, mtConfirmation, TMsgDlgButtons() << mbYes << mbNo << mbCancel, 0, mbYes);
+
+	if (ReplaceAnswer == mrYes)
+	{
+	  strPath = LookingForDefaultBootLoader();
+	  if (strPath == "")
+	  {
+		ShowMessage("Arduino IDE or AVR Package NOT Found!");
+		return;
+	  }
+	  if (ReplaceBootLoader(strPath))
+	  {
+		Text = "File with bootloader was replaced by fixed version. Now you need to burn the bootloader using Arduino IDE and an external hardware programmer, such as \"USBasp\" or another Arduino with the \"ArduinoISP\" sketch loaded. Do you need additional information?";
+		MoreInfoAnswer = MessageDlg(Text, mtConfirmation, TMsgDlgButtons() << mbYes << mbNo, 0, mbYes);
+		if (MoreInfoAnswer == mrYes) ShellExecute(0, 0, L"http://www.gra-afch.com", 0, 0, SW_SHOW); //добавить прямую ссылку на страницу с описаснием обновления бутлоадера
+		return;
+	  }
+	  else return;
+	}
+
+	if (ReplaceAnswer == mrNo)
+	{
+	  FileName = OpenFBLSaveDialog();
+	  if (FileName != "")
+	  {
+		try
+			{
+			TResourceStream *rstrmFixed_Bootloader_HEX = new TResourceStream((int)HInstance, L"Fixed_Bootloader_HEX", RT_RCDATA);
+			rstrmFixed_Bootloader_HEX->SaveToFile(FileName);
+			} catch(const Exception& e)
+			{
+				ShowMessage(e.Message);
+				return;
+			}
+		ShowMessage("Saved");
+	  }
+	}
+
+}
+//---------------------------------------------------------------------------
 
