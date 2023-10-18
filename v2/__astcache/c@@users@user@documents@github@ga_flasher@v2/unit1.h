@@ -13,6 +13,7 @@
 #include <System.ImageList.hpp>
 #include <Vcl.ImgList.hpp>
 #include <Vcl.Imaging.jpeg.hpp>
+#include <Vcl.Menus.hpp>
 //---------------------------------------------------------------------------
 class TGRA_AND_AFCH_FLASHER : public TForm
 {
@@ -45,6 +46,13 @@ __published:	// IDE-managed Components
 	TImageList *ImageList1;
 	TGroupBox *GroupBox4;
 	TSaveDialog *FixedBLSaveDialog;
+	TMainMenu *MainMenu1;
+	TMenuItem *Help1;
+	TMenuItem *HowtoburnBootloaderinArduinoIDE1;
+	TMenuItem *N1;
+	TMenuItem *About1;
+	TMenuItem *File1;
+	TMenuItem *SaveFixedATmega2560Bootloader1;
 	void __fastcall FlashButtonClick(TObject *Sender);
 	void __fastcall Timer1Timer(TObject *Sender);
 	void __fastcall SearchPortBitBtnClick(TObject *Sender);
@@ -61,6 +69,9 @@ __published:	// IDE-managed Components
 	void __fastcall FormResize(TObject *Sender);
 	void __fastcall DevicesComboBoxChange(TObject *Sender);
 	void __fastcall SaveFBLButtonClick(TObject *Sender);
+	void __fastcall HowtoburnBootloaderinArduinoIDE1Click(TObject *Sender);
+	void __fastcall SaveFixedATmega2560Bootloader1Click(TObject *Sender);
+	void __fastcall About1Click(TObject *Sender);
 	private:	// User declarations
 public:		// User declarations
 	__fastcall TGRA_AND_AFCH_FLASHER(TComponent* Owner);

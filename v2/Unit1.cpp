@@ -525,7 +525,7 @@ void __fastcall TGRA_AND_AFCH_FLASHER::SaveFBLButtonClick(TObject *Sender)
 	  {
 		Text = "File with bootloader was replaced by fixed version. Now you need to burn the bootloader using Arduino IDE and an external hardware programmer, such as \"USBasp\" or another Arduino with the \"ArduinoISP\" sketch loaded. Do you need additional information?";
 		MoreInfoAnswer = MessageDlg(Text, mtConfirmation, TMsgDlgButtons() << mbYes << mbNo, 0, mbYes);
-		if (MoreInfoAnswer == mrYes) ShellExecute(0, 0, L"https://gra-afch.com/how-to-burn-or-update-bootloader-in-arduino-ide/", 0, 0, SW_SHOW); //добавить прямую ссылку на страницу с описаснием обновления бутлоадера
+		if (MoreInfoAnswer == mrYes) ShellExecute(0, 0, L"https://gra-afch.com/how-it-works/how-to-burn-or-update-bootloader-in-arduino-ide/", 0, 0, SW_SHOW); //добавить прямую ссылку на страницу с описаснием обновления бутлоадера
 		return;
 	  }
 	  else return;
@@ -554,7 +554,7 @@ void __fastcall TGRA_AND_AFCH_FLASHER::SaveFBLButtonClick(TObject *Sender)
 
 void __fastcall TGRA_AND_AFCH_FLASHER::HowtoburnBootloaderinArduinoIDE1Click(TObject *Sender)
 {
-	ShellExecute(0, 0, L"https://gra-afch.com/how-to-burn-or-update-bootloader-in-arduino-ide/", 0, 0, SW_SHOW);
+	ShellExecute(0, 0, L"https://gra-afch.com/how-it-works/how-to-burn-or-update-bootloader-in-arduino-ide/", 0, 0, SW_SHOW);
 }
 //---------------------------------------------------------------------------
 
