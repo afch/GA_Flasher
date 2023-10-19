@@ -1,19 +1,19 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <BorlandProject>
 	<Transactions>
-    <Transaction>1899.12.30 00:00:00.000.140,C:\Users\user\Documents\GitHub\GA_Flasher\v2\Unit1.dfm=C:\Users\user\Documents\Embarcadero\Studio\Projects\Unit1.dfm</Transaction>
-    <Transaction>1899.12.30 00:00:00.000.006,=C:\Users\user\Documents\GitHub\GA_Flasher\v2\avrdude.rc</Transaction>
-    <Transaction>1899.12.30 00:00:00.000.140,C:\Users\user\Documents\GitHub\GA_Flasher\v2\Unit1.h=C:\Users\user\Documents\Embarcadero\Studio\Projects\Unit1.h</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.172,C:\Users\user\Documents\Embarcadero\Studio\Projects\Project1.cbproj=C:\Users\user\Documents\GitHub\GA_Flasher\v2\GA_Flasher_v2.cbproj</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.229,=C:\Users\user\Documents\GitHub\GA_Flasher\v2\avrdude.rc_</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.140,C:\Users\user\Documents\Embarcadero\Studio\Projects\Unit1.dfm=C:\Users\user\Documents\GitHub\GA_Flasher\v2\Unit1.dfm</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.140,C:\Users\user\Documents\Embarcadero\Studio\Projects\Unit1.cpp=C:\Users\user\Documents\GitHub\GA_Flasher\v2\Unit1.cpp</Transaction>
     <Transaction>1899.12.30 00:00:00.000.298,=C:\Users\user\Documents\Embarcadero\Studio\Projects\Unit1.cpp</Transaction>
     <Transaction>1899.12.30 00:00:00.000.835,=C:\Users\user\Documents\GitHub\GA_Flasher\v2\Fixed Bootloader\stk500boot_v2_mega2560.hex</Transaction>
-    <Transaction>1899.12.30 00:00:00.000.088,C:\Users\user\Documents\GitHub\GA_Flasher\v2\GA_Flasher_v2PCH1.h=C:\Users\user\Documents\Embarcadero\Studio\Projects\Project1PCH1.h</Transaction>
-    <Transaction>1899.12.30 00:00:00.000.202,=C:\Users\user\Documents\GitHub\GA_Flasher\v2\avrdude.exe</Transaction>
-    <Transaction>1899.12.30 00:00:00.000.705,C:\Users\user\Documents\GitHub\GA_Flasher\v2\GA_Flasher_v2.cbproj=C:\Users\user\Documents\GitHub\GA_Flasher\v2\GA_Flasher_v2.cbproj</Transaction>
-    <Transaction>1899.12.30 00:00:00.000.262,=C:\Users\user\Documents\Embarcadero\Studio\Projects\Project1PCH1.h</Transaction>
-    <Transaction>1899.12.30 00:00:00.000.140,C:\Users\user\Documents\GitHub\GA_Flasher\v2\Unit1.cpp=C:\Users\user\Documents\Embarcadero\Studio\Projects\Unit1.cpp</Transaction>
     <Transaction>1899.12.30 00:00:00.000.131,=C:\Users\user\Documents\GitHub\GA_Flasher\v2\avrdude.conf</Transaction>
-    <Transaction>1899.12.30 00:00:00.000.229,=C:\Users\user\Documents\GitHub\GA_Flasher\v2\avrdude.rc_</Transaction>
-    <Transaction>1899.12.30 00:00:00.000.172,C:\Users\user\Documents\GitHub\GA_Flasher\v2\GA_Flasher_v2.cbproj=C:\Users\user\Documents\Embarcadero\Studio\Projects\Project1.cbproj</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.262,=C:\Users\user\Documents\Embarcadero\Studio\Projects\Project1PCH1.h</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.088,C:\Users\user\Documents\Embarcadero\Studio\Projects\Project1PCH1.h=C:\Users\user\Documents\GitHub\GA_Flasher\v2\GA_Flasher_v2PCH1.h</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.006,=C:\Users\user\Documents\GitHub\GA_Flasher\v2\avrdude.rc</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.202,=C:\Users\user\Documents\GitHub\GA_Flasher\v2\avrdude.exe</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.140,C:\Users\user\Documents\Embarcadero\Studio\Projects\Unit1.h=C:\Users\user\Documents\GitHub\GA_Flasher\v2\Unit1.h</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.705,C:\Users\user\Documents\GitHub\GA_Flasher\v2\GA_Flasher_v2.cbproj=C:\Users\user\Documents\GitHub\GA_Flasher\v2\GA_Flasher_v2.cbproj</Transaction>
   </Transactions>
 	<BT_BuildType>Debug</BT_BuildType>
 </BorlandProject>
