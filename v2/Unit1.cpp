@@ -561,7 +561,8 @@ void __fastcall TGRA_AND_AFCH_FLASHER::HowtoburnBootloaderinArduinoIDE1Click(TOb
 void __fastcall TGRA_AND_AFCH_FLASHER::SaveFixedATmega2560Bootloader1Click(TObject *Sender)
 
 {
-    FileName = OpenFBLSaveDialog();
+	SaveFBLButtonClick(NULL);
+	/*FileName = OpenFBLSaveDialog();
 	  if (FileName != "")
 	  {
 		try
@@ -574,7 +575,7 @@ void __fastcall TGRA_AND_AFCH_FLASHER::SaveFixedATmega2560Bootloader1Click(TObje
 				return;
 			}
 		ShowMessage("Saved");
-	  }
+	  }  */
 }
 //---------------------------------------------------------------------------
 

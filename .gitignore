@@ -1,7 +1,7 @@
-v2/__astcache/
-v2/__history/
-v2/__recovery/
-*.json
-*.json
-*.json
+v2/__astcache/*
+v2/__history/*
+v2/__recovery/*
+v2\__astcache\*
+v2\__history\*
+v2\__recovery\*
 *.json
