@@ -1,3 +1,9 @@
 __history/
 __astcache/
 __recovery/
+__history/*
+__astcache/*
+__recovery/*
+*/__history/*
+*/__astcache/*
+*/__recovery/*
