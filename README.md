@@ -1,5 +1,5 @@
 # GA Flasher
-Program for uploading or download compiled firmware to a clock, without using Arduino IDE
+The program for reading or uploading the compiled firmware from/to a Nixie Clock (by GRA & AFCH) or Arduino, without using Arduino IDE
 
 # How to Download the Flash Memory Contents (sketch) from an Arduino?
 You won't be able to read the source code in C (or C++) directly, but you can certainly download it in compiled form. This can be done through both avrdude and with the help of GA Flasher
