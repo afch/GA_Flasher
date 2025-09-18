@@ -186,7 +186,13 @@ void __fastcall TGRA_AND_AFCH_FLASHER::FormCreate(TObject *Sender)
 	TResourceStream *rstrmAvr_rc = new TResourceStream((int)HInstance, L"Avrdude_rc", RT_RCDATA);
 	rstrmAvr_rc->SaveToFile(TPath::GetTempPath() + "avrdude.rc");
 
+	TResourceStream *rstrmLibUSB_rc = new TResourceStream((int)HInstance, L"Libusb0_dll", RT_RCDATA);
+	rstrmLibUSB_rc->SaveToFile(TPath::GetTempPath() + "libusb0.dll");
+
 	PrepareString();
+
+	Image1->Height = MulDiv(46, Screen->PixelsPerInch, 96);
+	Image1->Width = MulDiv(82, Screen->PixelsPerInch, 96);
 }
 //---------------------------------------------------------------------------
 
@@ -581,7 +587,7 @@ void __fastcall TGRA_AND_AFCH_FLASHER::SaveFixedATmega2560Bootloader1Click(TObje
 
 void __fastcall TGRA_AND_AFCH_FLASHER::About1Click(TObject *Sender)
 {
-    ShowMessage("Arduino Flasher v2.2 by GRA & AFCH.\ngra-afch.com\nfominalec@gra-afch.com");
+    ShowMessage("Arduino Flasher v2.3 by GRA & AFCH.\ngra-afch.com\nfominalec@gra-afch.com");
 }
 //---------------------------------------------------------------------------
 

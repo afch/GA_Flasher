@@ -2,8 +2,8 @@ object GRA_AND_AFCH_FLASHER: TGRA_AND_AFCH_FLASHER
   Left = 0
   Top = 0
   Margins.Right = 0
-  Caption = 'GRA & AFCH Nixie Tubes Clocks / Arduino Flasher v2.2'
-  ClientHeight = 416
+  Caption = 'GRA & AFCH Nixie Tubes Clocks / Arduino Flasher v2.3'
+  ClientHeight = 426
   ClientWidth = 506
   Color = clBtnFace
   Constraints.MinHeight = 454
@@ -20,7 +20,7 @@ object GRA_AND_AFCH_FLASHER: TGRA_AND_AFCH_FLASHER
   OnResize = FormResize
   DesignSize = (
     506
-    416)
+    426)
   TextHeight = 13
   object Label1: TLabel
     Left = 8
@@ -119,7 +119,6 @@ object GRA_AND_AFCH_FLASHER: TGRA_AND_AFCH_FLASHER
     Width = 82
     Height = 46
     Cursor = crHandPoint
-    AutoSize = True
     Picture.Data = {
       0A544A504547496D616765FE0A0000FFD8FFE100224578696600004D4D002A00
       000008000101120003000000010001000000000000FFFE003350726F63657373
@@ -210,6 +209,7 @@ object GRA_AND_AFCH_FLASHER: TGRA_AND_AFCH_FLASHER
       2801F98E08E227C123E50F1E7E38EA2C5388311C4B10CF78E15E704A89804905
       206D1D3E558E6AC986ADCAD09850200F6833576AC20A8F1D675A95EE13027CFF
       0011FF00AEB3A542EBDEBFFFD9}
+    Stretch = True
     OnClick = Image1Click
   end
   object GroupBox2: TGroupBox
@@ -220,7 +220,6 @@ object GRA_AND_AFCH_FLASHER: TGRA_AND_AFCH_FLASHER
     Anchors = [akTop, akRight]
     Caption = 'FLASH (Firmware)'
     TabOrder = 13
-    ExplicitLeft = 309
   end
   object GroupBox1: TGroupBox
     Left = 8
@@ -256,7 +255,6 @@ object GRA_AND_AFCH_FLASHER: TGRA_AND_AFCH_FLASHER
     ShowHint = True
     TabOrder = 2
     OnClick = FlashButtonClick
-    ExplicitLeft = 318
   end
   object COMPortComboBox: TComboBox
     Left = 101
@@ -268,7 +266,6 @@ object GRA_AND_AFCH_FLASHER: TGRA_AND_AFCH_FLASHER
     Anchors = [akLeft, akTop, akRight]
     Sorted = True
     TabOrder = 3
-    ExplicitWidth = 193
   end
   object SearchPortBitBtn: TBitBtn
     Left = 304
@@ -280,7 +277,6 @@ object GRA_AND_AFCH_FLASHER: TGRA_AND_AFCH_FLASHER
     Caption = 'Search for available ports'
     TabOrder = 4
     OnClick = SearchPortBitBtnClick
-    ExplicitLeft = 300
   end
   object OpenFileEdit: TEdit
     Left = 101
@@ -293,7 +289,6 @@ object GRA_AND_AFCH_FLASHER: TGRA_AND_AFCH_FLASHER
     ParentShowHint = False
     ShowHint = True
     TabOrder = 5
-    ExplicitWidth = 262
   end
   object OpenHEXBitBtn: TBitBtn
     Left = 402
@@ -305,7 +300,6 @@ object GRA_AND_AFCH_FLASHER: TGRA_AND_AFCH_FLASHER
     Caption = 'Open File'
     TabOrder = 0
     OnClick = OpenHEXBitBtnClick
-    ExplicitLeft = 398
   end
   object DevicesComboBox: TComboBox
     Left = 100
@@ -331,13 +325,12 @@ object GRA_AND_AFCH_FLASHER: TGRA_AND_AFCH_FLASHER
       
         'Arduino Shield NCS314 / NCS312 / NCS318 - Arduino Mega 2560 (Atm' +
         'ega2560)')
-    ExplicitWidth = 394
   end
   object Memo1: TMemo
     Left = 0
     Top = 305
     Width = 506
-    Height = 113
+    Height = 123
     Margins.Right = 0
     TabStop = False
     Align = alCustom
@@ -350,8 +343,7 @@ object GRA_AND_AFCH_FLASHER: TGRA_AND_AFCH_FLASHER
     ParentFont = False
     ScrollBars = ssBoth
     TabOrder = 6
-    ExplicitWidth = 502
-    ExplicitHeight = 112
+    ExplicitHeight = 113
   end
   object LinkLabel1: TLinkLabel
     Left = 225
@@ -368,7 +360,6 @@ object GRA_AND_AFCH_FLASHER: TGRA_AND_AFCH_FLASHER
     ParentFont = False
     TabOrder = 7
     OnClick = LinkLabel1Click
-    ExplicitLeft = 223
   end
   object ReadEEPROMButton: TButton
     Left = 18
@@ -398,7 +389,6 @@ object GRA_AND_AFCH_FLASHER: TGRA_AND_AFCH_FLASHER
     Enabled = False
     TabOrder = 11
     OnClick = CancelButtonClick
-    ExplicitWidth = 486
   end
   object GroupBox3: TGroupBox
     Left = 313
@@ -407,7 +397,6 @@ object GRA_AND_AFCH_FLASHER: TGRA_AND_AFCH_FLASHER
     Height = 70
     Anchors = [akTop, akRight]
     TabOrder = 15
-    ExplicitLeft = 309
   end
   object BootloaderCheckBox: TCheckBox
     Left = 334
@@ -417,7 +406,6 @@ object GRA_AND_AFCH_FLASHER: TGRA_AND_AFCH_FLASHER
     Anchors = [akTop, akRight]
     Caption = 'Including the bootloader'
     TabOrder = 14
-    ExplicitLeft = 330
   end
   object ReadFlashButton: TButton
     Left = 322
@@ -428,7 +416,6 @@ object GRA_AND_AFCH_FLASHER: TGRA_AND_AFCH_FLASHER
     Caption = 'Save to File (Backup)'
     TabOrder = 8
     OnClick = ReadFlashButtonClick
-    ExplicitLeft = 318
   end
   object SaveFBLButton: TButton
     Left = 18
